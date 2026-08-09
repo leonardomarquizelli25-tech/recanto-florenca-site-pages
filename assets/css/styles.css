@@ -37,7 +37,10 @@
   --shell: 1320px;
   --pad: clamp(20px, 4.8vw, 72px);
   --section: clamp(88px, 10vw, 160px);
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease: var(--ease-out);
 }
 
 *,
@@ -151,7 +154,7 @@ h2 {
   background: var(--white);
   color: var(--forest);
   transform: translateY(-150%);
-  transition: transform 180ms ease;
+  transition: transform 180ms var(--ease-out);
 }
 
 .skip-link:focus {
@@ -160,10 +163,10 @@ h2 {
 
 .js .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   transition:
-    opacity 780ms var(--ease) var(--reveal-delay, 0ms),
-    transform 780ms var(--ease) var(--reveal-delay, 0ms);
+    opacity 520ms var(--ease-out) var(--reveal-delay, 0ms),
+    transform 520ms var(--ease-out) var(--reveal-delay, 0ms);
 }
 
 .js .reveal.is-visible {
@@ -208,10 +211,10 @@ h2 {
   letter-spacing: 0.04em;
   line-height: 1;
   transition:
-    background 280ms ease,
-    color 280ms ease,
-    transform 280ms var(--ease),
-    box-shadow 280ms ease;
+    background 220ms var(--ease-out),
+    color 220ms var(--ease-out),
+    transform 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out);
 }
 
 .button svg,
@@ -224,16 +227,7 @@ h2 {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.7;
-  transition: transform 280ms var(--ease);
-}
-
-.button:hover {
-  transform: translateY(-2px);
-}
-
-.button:hover svg,
-.text-link:hover svg {
-  transform: translateX(4px);
+  transition: transform 220ms var(--ease-out);
 }
 
 .button--primary {
@@ -242,18 +236,9 @@ h2 {
   color: var(--white);
 }
 
-.button--primary:hover {
-  background: var(--forest-deep);
-  box-shadow: 0 16px 38px rgba(27, 58, 45, 0.25);
-}
-
 .button--cream {
   background: var(--cream);
   color: var(--forest);
-}
-
-.button--cream:hover {
-  background: var(--white);
 }
 
 .button--large {
@@ -277,6 +262,7 @@ h2 {
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.05em;
+  transition: transform 180ms var(--ease-out);
 }
 
 .text-link svg {
@@ -312,10 +298,10 @@ h2 {
   backdrop-filter: blur(18px);
   transform: translateX(-50%);
   transition:
-    top 320ms var(--ease),
-    background 320ms ease,
-    color 320ms ease,
-    box-shadow 320ms ease;
+    top 240ms var(--ease-out),
+    background 240ms var(--ease-out),
+    color 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
 }
 
 .site-header--scrolled {
@@ -333,7 +319,7 @@ h2 {
   padding: 5px 14px;
   border-radius: 999px;
   background: var(--forest);
-  transition: background 320ms ease;
+  transition: background 240ms var(--ease-out);
 }
 
 .site-header--scrolled .site-header__brand {
@@ -424,12 +410,7 @@ h2 {
   content: "";
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 280ms var(--ease);
-}
-
-.desktop-nav a:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+  transition: transform 220ms var(--ease-out);
 }
 
 .button--header {
@@ -579,11 +560,7 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s var(--ease);
-}
-
-.hero__visual:hover .hero__photo-main img {
-  transform: scale(1.025);
+  transition: transform 720ms var(--ease-out);
 }
 
 .hero__location {
@@ -816,11 +793,7 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1s var(--ease);
-}
-
-.manifesto__image:hover img {
-  transform: scale(1.03);
+  transition: transform 720ms var(--ease-out);
 }
 
 .manifesto__caption {
@@ -944,8 +917,8 @@ h2 {
   opacity: 0;
   transform: scale(1.03);
   transition:
-    opacity 820ms var(--ease),
-    transform 1.3s var(--ease);
+    opacity 520ms var(--ease-in-out),
+    transform 860ms var(--ease-out);
 }
 
 .experience__visual > img.is-active {
@@ -983,7 +956,7 @@ h2 {
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   opacity: 0.36;
-  transition: opacity 480ms ease;
+  transition: opacity 260ms var(--ease-out);
 }
 
 .experience-step.is-active {
@@ -1059,18 +1032,10 @@ h2 {
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.6);
   transition:
-    transform 320ms var(--ease),
-    border-color 320ms ease,
-    background 320ms ease,
-    box-shadow 320ms ease;
-}
-
-.amenity-card:hover {
-  z-index: 2;
-  border-color: rgba(200, 169, 110, 0.7);
-  background: var(--white);
-  box-shadow: 0 24px 58px rgba(27, 58, 45, 0.1);
-  transform: translateY(-5px);
+    transform 240ms var(--ease-out),
+    border-color 240ms var(--ease-out),
+    background 240ms var(--ease-out),
+    box-shadow 240ms var(--ease-out);
 }
 
 .amenity-card--1,
@@ -1271,17 +1236,14 @@ h2 {
   border-radius: 26px;
   background: var(--cream);
   cursor: zoom-in;
+  transition: transform 180ms var(--ease-out);
 }
 
 .gallery-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 800ms var(--ease);
-}
-
-.gallery-item button:hover img {
-  transform: scale(1.035);
+  transition: transform 650ms var(--ease-out);
 }
 
 .gallery-item__overlay {
@@ -1323,6 +1285,10 @@ h2 {
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.44);
   border-radius: 50%;
+  transition:
+    background 220ms var(--ease-out),
+    border-color 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
 }
 
 .gallery-item__overlay svg {
@@ -1341,7 +1307,7 @@ h2 {
   place-items: center;
   background: rgba(8, 23, 17, 0.96);
   backdrop-filter: blur(18px);
-  animation: lightboxIn 260ms ease both;
+  animation: lightboxIn 260ms var(--ease-out) both;
 }
 
 @keyframes lightboxIn {
@@ -1414,14 +1380,9 @@ h2 {
   color: var(--white);
   cursor: pointer;
   transition:
-    background 250ms ease,
-    border-color 250ms ease;
-}
-
-.lightbox__close:hover,
-.lightbox__nav:hover {
-  border-color: var(--gold);
-  background: rgba(200, 169, 110, 0.14);
+    background 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    transform 180ms var(--ease-out);
 }
 
 .lightbox__close {
@@ -1522,13 +1483,8 @@ h2 {
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   transition:
-    padding 300ms var(--ease),
-    background 300ms ease;
-}
-
-.event-list__item:hover {
-  padding-inline: 18px;
-  background: rgba(255, 255, 255, 0.05);
+    padding 220ms var(--ease-out),
+    background 220ms var(--ease-out);
 }
 
 .event-list__item > span {
@@ -1718,12 +1674,9 @@ h2 {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: transform 180ms ease, background 180ms ease;
-}
-
-.map-link:hover {
-  transform: translateY(-2px);
-  background: var(--cream);
+  transition:
+    transform 200ms var(--ease-out),
+    background 200ms var(--ease-out);
 }
 
 .map-link svg {
@@ -1802,6 +1755,7 @@ h2 {
   color: var(--white);
   cursor: pointer;
   text-align: left;
+  transition: transform 180ms var(--ease-out);
 }
 
 .faq-item button > span {
@@ -1835,7 +1789,7 @@ h2 {
   background: var(--gold);
   content: "";
   transform: translate(-50%, -50%);
-  transition: transform 280ms var(--ease);
+  transition: transform 220ms var(--ease-out);
 }
 
 .faq-item button > i::after {
@@ -1953,6 +1907,10 @@ h2 {
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
+  transition:
+    transform 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    background 200ms var(--ease-out);
 }
 
 .footer__social svg {
@@ -1996,10 +1954,6 @@ h2 {
   color: rgba(255, 255, 255, 0.67);
   font-family: "Lora", Georgia, serif;
   font-size: 0.91rem;
-}
-
-.footer__links a:hover {
-  color: var(--white);
 }
 
 .footer__bottom {
@@ -2046,13 +2000,8 @@ h2 {
   font-weight: 700;
   letter-spacing: 0.04em;
   transition:
-    transform 280ms var(--ease),
-    background 280ms ease;
-}
-
-.floating-whatsapp:hover {
-  background: var(--forest-deep);
-  transform: translateY(-3px);
+    transform 220ms var(--ease-out),
+    background 220ms var(--ease-out);
 }
 
 .floating-whatsapp svg {
@@ -2062,6 +2011,129 @@ h2 {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.4;
+}
+
+/* Motion polish preview — emil-design-eng */
+
+.button:active,
+.map-link:active,
+.floating-whatsapp:active,
+.rf-btn:active {
+  transform: scale(0.97);
+}
+
+.text-link:active,
+.footer__social:active {
+  transform: scale(0.96);
+}
+
+.gallery-item button:active {
+  transform: scale(0.985);
+}
+
+.faq-item button:active {
+  transform: scale(0.99);
+}
+
+.lightbox__close:active,
+#rf-close:active {
+  transform: scale(0.92);
+}
+
+.lightbox__nav:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button:hover svg,
+  .text-link:hover svg {
+    transform: translateX(4px);
+  }
+
+  .button--primary:hover {
+    background: var(--forest-deep);
+    box-shadow: 0 16px 38px rgba(27, 58, 45, 0.25);
+  }
+
+  .button--cream:hover {
+    background: var(--white);
+  }
+
+  .desktop-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .hero__visual:hover .hero__photo-main img {
+    transform: scale(1.025);
+  }
+
+  .manifesto__image:hover img {
+    transform: scale(1.03);
+  }
+
+  .amenity-card:hover {
+    z-index: 2;
+    border-color: rgba(200, 169, 110, 0.7);
+    background: var(--white);
+    box-shadow: 0 24px 58px rgba(27, 58, 45, 0.1);
+    transform: translateY(-5px);
+  }
+
+  .gallery-item button:hover img {
+    transform: scale(1.035);
+  }
+
+  .gallery-item button:hover .gallery-item__overlay i {
+    border-color: var(--gold);
+    background: rgba(200, 169, 110, 0.2);
+    transform: translate(2px, -2px);
+  }
+
+  .lightbox__close:hover,
+  .lightbox__nav:hover {
+    border-color: var(--gold);
+    background: rgba(200, 169, 110, 0.14);
+  }
+
+  .event-list__item:hover {
+    padding-inline: 18px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .map-link:hover {
+    background: var(--cream);
+    transform: translateY(-2px);
+  }
+
+  .footer__social:hover {
+    border-color: var(--gold);
+    background: rgba(200, 169, 110, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .footer__links a:hover {
+    color: var(--white);
+  }
+
+  .floating-whatsapp:hover {
+    background: var(--forest-deep);
+    transform: translateY(-3px);
+  }
+
+  #rf-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: rotate(8deg);
+  }
+
+  .rf-btn:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+    transform: translateY(-2px);
+  }
 }
 
 /* Responsive */
@@ -2772,7 +2844,9 @@ h2 {
   visibility: hidden;
   pointer-events: none;
   isolation: isolate;
-  transition: opacity 450ms ease, visibility 0s linear 450ms;
+  transition:
+    opacity 280ms var(--ease-out),
+    visibility 0s linear 280ms;
 }
 
 #rf-overlay.show {
@@ -2823,12 +2897,9 @@ h2 {
   font-size: 1.15rem;
   line-height: 1;
   cursor: pointer;
-  transition: background 200ms ease, transform 200ms ease;
-}
-
-#rf-close:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: rotate(90deg);
+  transition:
+    background 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
 }
 
 #rf-close:focus-visible,
@@ -2864,7 +2935,7 @@ h2 {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(10px);
 }
 
 .rf-title {
@@ -2875,7 +2946,7 @@ h2 {
   font-weight: 700;
   line-height: 1.15;
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(12px);
 }
 
 .rf-title em {
@@ -2890,7 +2961,7 @@ h2 {
   font-size: clamp(0.95rem, 2.5vw, 1.12rem);
   font-style: italic;
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(10px);
 }
 
 .rf-icons {
@@ -2911,7 +2982,7 @@ h2 {
   border-radius: 50%;
   background: var(--rf-green-dark);
   opacity: 0;
-  transform: scale(0.4);
+  transform: scale(0.92);
 }
 
 .rf-icon svg {
@@ -2931,7 +3002,7 @@ h2 {
   font-weight: 500;
   letter-spacing: 0.03em;
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(10px);
 }
 
 .rf-package strong {
@@ -2954,13 +3025,10 @@ h2 {
   font-weight: 700;
   text-decoration: none;
   opacity: 0;
-  transform: translateY(14px);
-  transition: transform 200ms ease, box-shadow 200ms ease;
-}
-
-.rf-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+  transform: translateY(10px);
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out);
 }
 
 .rf-btn svg {
@@ -2971,43 +3039,43 @@ h2 {
 }
 
 #rf-overlay.show .rf-tag {
-  animation: rf-pop-in 700ms 200ms ease forwards;
+  animation: rf-pop-in 320ms 80ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-title {
-  animation: rf-pop-in 800ms 400ms ease forwards;
+  animation: rf-pop-in 360ms 130ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-sub {
-  animation: rf-pop-in 700ms 600ms ease forwards;
+  animation: rf-pop-in 320ms 180ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-icon {
-  animation: rf-icon-pop 550ms ease forwards;
+  animation: rf-icon-pop 280ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-icon:nth-child(1) {
-  animation-delay: 800ms;
+  animation-delay: 230ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(2) {
-  animation-delay: 950ms;
+  animation-delay: 275ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(3) {
-  animation-delay: 1100ms;
+  animation-delay: 320ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(4) {
-  animation-delay: 1250ms;
+  animation-delay: 365ms;
 }
 
 #rf-overlay.show .rf-package {
-  animation: rf-pop-in 700ms 1400ms ease forwards;
+  animation: rf-pop-in 320ms 410ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-btn {
-  animation: rf-pop-in 700ms 1600ms ease forwards;
+  animation: rf-pop-in 320ms 460ms var(--ease-out) forwards;
 }
 
 @keyframes rf-pop-in {
