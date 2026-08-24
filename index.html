@@ -4,16 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1b3a2d">
-  <meta name="description" content="Recanto Florença é um espaço para festas e eventos em Marília, SP, com piscina, salão, cozinha equipada, quartos e estrutura para até 80 pessoas.">
+  <meta name="description" content="Recanto Florença: espaço para festas em Marília para até 80 pessoas, com piscina e dois quartos — 12 camas e 8 colchões avulsos para até 20 hóspedes.">
   <meta name="robots" content="index, follow">
+  <meta name="sentry-dsn" content="">
   <link rel="canonical" href="https://recantoflorenca.com.br/">
   <title>Espaço para Festas e Eventos em Marília | Recanto Florença</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/montserrat.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="preload" href="assets/fonts/cinzel.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="icon" href="assets/images/brand/recanto-florenca-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/images/brand/recanto-florenca-favicon-180.png" sizes="180x180">
+  <link rel="preload" href="assets/fonts/montserrat.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/images/recanto/entrada-principal-768.webp" as="image" type="image/webp" imagesrcset="assets/images/recanto/entrada-principal-480.webp 480w, assets/images/recanto/entrada-principal-768.webp 768w, assets/images/recanto/entrada-principal-1200.webp 1200w, assets/images/recanto/entrada-principal-1600.webp 1600w" imagesizes="(max-width: 768px) 92vw, 46vw">
   <link rel="stylesheet" href="assets/css/styles.css">
-  <script>document.documentElement.classList.add("js");</script>
+  <script>
+    (function (root) {
+      var ready = false;
+      function revealFonts() {
+        if (ready) return;
+        ready = true;
+        root.classList.remove("fonts-pending");
+        root.classList.add("fonts-ready");
+      }
+      root.classList.add("js", "fonts-pending");
+      window.setTimeout(revealFonts, 2500);
+      if (document.fonts && document.fonts.ready) {
+        Promise.all([
+          document.fonts.load('500 1em "Cinzel"'),
+          document.fonts.load('600 1em "Montserrat"')
+        ]).then(revealFonts, revealFonts);
+      } else {
+        revealFonts();
+      }
+    })(document.documentElement);
+  </script>
   <script src="assets/js/analytics.js" defer></script>
 </head>
 <body>
@@ -101,16 +123,16 @@
       <div class="hero__leaf hero__leaf--two" aria-hidden="true"></div>
       <div class="hero__content">
         <div class="hero__copy">
-          <div class="reveal">
+          <div class="reveal" data-motion="reveal">
             <p class="eyebrow"><span></span>Espaço de eventos em Marília</p>
           </div>
-          <div class="reveal" style="--reveal-delay:90ms">
+          <div class="reveal" data-motion="reveal" style="--reveal-delay:70ms">
             <h1 id="hero-title">Espaço para festas e eventos <span>em Marília</span></h1>
           </div>
-          <div class="reveal" style="--reveal-delay:170ms">
+          <div class="reveal" data-motion="reveal" style="--reveal-delay:120ms">
             <p class="hero__intro">Celebre seus melhores momentos em um espaço completo, acolhedor e cercado por uma atmosfera única, dentro de Marília.</p>
           </div>
-          <div class="reveal hero__actions" style="--reveal-delay:230ms">
+          <div class="reveal hero__actions" data-motion="reveal" style="--reveal-delay:170ms">
             <a class="button button--primary" data-whatsapp href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">
               Consultar disponibilidade
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
@@ -126,7 +148,7 @@
           </div>
         </div>
 
-        <div class="reveal hero__visual" style="--reveal-delay:100ms">
+        <div class="reveal hero__visual" data-motion="reveal" style="--reveal-delay:80ms">
           <div class="hero__photo-main">
             <img
               src="assets/images/recanto/entrada-principal-768.webp"
@@ -167,7 +189,7 @@
       <div class="trust-strip__inner">
         <div class="reveal trust-item"><strong>80</strong><span>pessoas</span></div>
         <div class="reveal trust-item" style="--reveal-delay:70ms"><strong>01</strong><span>piscina</span></div>
-        <div class="reveal trust-item" style="--reveal-delay:140ms"><strong>02</strong><span>quartos</span></div>
+        <div class="reveal trust-item" style="--reveal-delay:140ms"><strong>01</strong><span>salão</span></div>
         <div class="reveal trust-item" style="--reveal-delay:210ms"><strong>04</strong><span>banheiros</span></div>
         <div class="reveal trust-strip__message" style="--reveal-delay:300ms">
           <p>Um espaço completo para viver dias que permanecem na memória.</p>
@@ -177,7 +199,7 @@
 
     <section class="manifesto section" id="recanto" aria-labelledby="manifesto-title">
       <div class="section-shell manifesto__grid">
-        <div class="reveal manifesto__image-wrap">
+        <div class="reveal manifesto__image-wrap" data-motion="reveal">
           <div class="manifesto__image">
             <img
               src="assets/images/recanto/jardim-interno-768.webp"
@@ -289,7 +311,7 @@
             <p class="eyebrow eyebrow--gold"><span></span>Estrutura completa</p>
             <h2 id="structure-title">Estrutura completa para festas e eventos</h2>
           </div>
-          <p>Do salão à piscina, da cozinha equipada aos quartos com ar-condicionado, cada ambiente foi preparado para tornar sua experiência mais confortável.</p>
+          <p>Do salão à piscina, da cozinha equipada aos ambientes de apoio, cada espaço foi preparado para tornar sua experiência mais confortável.</p>
         </div>
         <div class="amenity-grid">
           <div class="reveal amenity-card amenity-card--1">
@@ -308,10 +330,10 @@
           </div>
           <div class="reveal amenity-card amenity-card--3" style="--reveal-delay:140ms">
             <div class="amenity-card__top">
-              <svg class="amenity-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 37V15M42 37V26a6 6 0 0 0-6-6H20v17M6 30h36M10 20a5 5 0 1 1 10 0v2H10Z"></path></svg>
+              <svg class="amenity-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M9 17h30v9H9zM14 26v15M34 26v15M5 31h9M34 31h9M7 31v10M41 31v10"></path></svg>
               <span>03</span>
             </div>
-            <div><strong>20</strong><h3>para dormir</h3><p>Acomodação de apoio conforme o pacote contratado.</p></div>
+            <div><strong>Mesas</strong><h3>e cadeiras</h3><p>Estrutura para acomodar os convidados com conforto.</p></div>
           </div>
           <div class="reveal amenity-card amenity-card--4">
             <div class="amenity-card__top">
@@ -336,11 +358,11 @@
           </div>
         </div>
 
-        <div class="reveal accommodation">
+        <div class="reveal accommodation" data-motion="reveal">
           <div class="accommodation__copy">
             <p class="eyebrow eyebrow--gold"><span></span>Acomodações</p>
             <h2>Quartos e acomodações para seus convidados</h2>
-            <p>Em locações de duas ou mais diárias, o espaço disponibiliza dois quartos com ar-condicionado, 12 camas e 8 colchões, acomodando até 20 pessoas para dormir.</p>
+            <p>Em locações de duas ou mais diárias, o espaço disponibiliza dois quartos com ar-condicionado, 12 camas e 8 colchões avulsos, acomodando até 20 pessoas para dormir.</p>
             <a class="button button--cream" data-whatsapp href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">
               Consultar condições
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
@@ -349,7 +371,7 @@
           <div class="accommodation__numbers" aria-label="Detalhes das acomodações">
             <div><strong>02</strong><span>quartos</span></div>
             <div><strong>12</strong><span>camas</span></div>
-            <div><strong>08</strong><span>colchões</span></div>
+            <div><strong>08</strong><span>colchões avulsos</span></div>
             <div><strong>20</strong><span>pessoas</span></div>
           </div>
         </div>
@@ -397,37 +419,49 @@
             </button>
           </div>
           <div class="reveal gallery-item gallery-item--6" style="--reveal-delay:55ms">
-            <button type="button" data-gallery-index="5" aria-label="Ampliar foto: Piscina e deck">
+            <button type="button" data-gallery-index="5" aria-label="Ampliar foto: Primeiro dormitório com beliches">
+              <img src="assets/images/recanto/quarto-beliches-01-768.webp" srcset="assets/images/recanto/quarto-beliches-01-480.webp 480w, assets/images/recanto/quarto-beliches-01-768.webp 768w, assets/images/recanto/quarto-beliches-01-960.webp 960w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="960" height="1280" alt="Primeiro dormitório do Recanto Florença com beliches de madeira e colchões azuis" style="object-position:50% 68%" loading="lazy" decoding="async">
+              <span class="gallery-item__overlay"><span>Acomodações</span><strong>Primeiro dormitório</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
+            </button>
+          </div>
+          <div class="reveal gallery-item gallery-item--1" style="--reveal-delay:110ms">
+            <button type="button" data-gallery-index="6" aria-label="Ampliar foto: Segundo dormitório climatizado">
+              <img src="assets/images/recanto/quarto-beliches-02-768.webp" srcset="assets/images/recanto/quarto-beliches-02-480.webp 480w, assets/images/recanto/quarto-beliches-02-768.webp 768w, assets/images/recanto/quarto-beliches-02-960.webp 960w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="960" height="1280" alt="Segundo dormitório do Recanto Florença com beliches de madeira e ar-condicionado" loading="lazy" decoding="async">
+              <span class="gallery-item__overlay"><span>Acomodações</span><strong>Segundo dormitório</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
+            </button>
+          </div>
+          <div class="reveal gallery-item gallery-item--2" style="--reveal-delay:165ms">
+            <button type="button" data-gallery-index="7" aria-label="Ampliar foto: Piscina e deck">
               <img src="assets/images/recanto/piscina-deck-768.webp" srcset="assets/images/recanto/piscina-deck-480.webp 480w, assets/images/recanto/piscina-deck-768.webp 768w, assets/images/recanto/piscina-deck-1200.webp 1200w, assets/images/recanto/piscina-deck-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="6048" height="8064" alt="Piscina do Recanto Florença ao lado do deck e cercada por palmeiras" style="object-position:50% 57%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Lazer</span><strong>Piscina e deck</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
           </div>
-          <div class="reveal gallery-item gallery-item--1" style="--reveal-delay:110ms">
-            <button type="button" data-gallery-index="6" aria-label="Ampliar foto: Área externa">
+          <div class="reveal gallery-item gallery-item--3">
+            <button type="button" data-gallery-index="8" aria-label="Ampliar foto: Área externa">
               <img src="assets/images/recanto/area-externa-deck-768.webp" srcset="assets/images/recanto/area-externa-deck-480.webp 480w, assets/images/recanto/area-externa-deck-768.webp 768w, assets/images/recanto/area-externa-deck-1200.webp 1200w, assets/images/recanto/area-externa-deck-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="6048" height="8064" alt="Área externa pavimentada com deck e acesso aos ambientes de apoio" style="object-position:50% 55%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Lazer</span><strong>Área externa</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
           </div>
-          <div class="reveal gallery-item gallery-item--2" style="--reveal-delay:165ms">
-            <button type="button" data-gallery-index="7" aria-label="Ampliar foto: Jardim interno">
+          <div class="reveal gallery-item gallery-item--4" style="--reveal-delay:55ms">
+            <button type="button" data-gallery-index="9" aria-label="Ampliar foto: Jardim interno">
               <img src="assets/images/recanto/jardim-interno-768.webp" srcset="assets/images/recanto/jardim-interno-480.webp 480w, assets/images/recanto/jardim-interno-768.webp 768w, assets/images/recanto/jardim-interno-1200.webp 1200w, assets/images/recanto/jardim-interno-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="6048" height="8064" alt="Jardim interno arborizado com palmeiras e caminho de circulação" style="object-position:50% 48%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Natureza</span><strong>Jardim interno</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
           </div>
-          <div class="reveal gallery-item gallery-item--3">
-            <button type="button" data-gallery-index="8" aria-label="Ampliar foto: Passagem ajardinada">
+          <div class="reveal gallery-item gallery-item--5" style="--reveal-delay:110ms">
+            <button type="button" data-gallery-index="10" aria-label="Ampliar foto: Passagem ajardinada">
               <img src="assets/images/recanto/passagem-ajardinada-768.webp" srcset="assets/images/recanto/passagem-ajardinada-480.webp 480w, assets/images/recanto/passagem-ajardinada-768.webp 768w, assets/images/recanto/passagem-ajardinada-1200.webp 1200w, assets/images/recanto/passagem-ajardinada-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="5915" height="7887" alt="Passagem lateral ajardinada ao lado do salão envidraçado" style="object-position:50% 50%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Natureza</span><strong>Passagem ajardinada</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
           </div>
-          <div class="reveal gallery-item gallery-item--4" style="--reveal-delay:55ms">
-            <button type="button" data-gallery-index="9" aria-label="Ampliar foto: Acesso externo">
+          <div class="reveal gallery-item gallery-item--6" style="--reveal-delay:165ms">
+            <button type="button" data-gallery-index="11" aria-label="Ampliar foto: Acesso externo">
               <img src="assets/images/recanto/fachada-acesso-externo-768.webp" srcset="assets/images/recanto/fachada-acesso-externo-480.webp 480w, assets/images/recanto/fachada-acesso-externo-768.webp 768w, assets/images/recanto/fachada-acesso-externo-1200.webp 1200w, assets/images/recanto/fachada-acesso-externo-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="6048" height="8064" alt="Vista externa do Recanto Florença com portão, calçada e palmeiras" style="object-position:50% 56%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Localização</span><strong>Acesso externo</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
           </div>
-          <div class="reveal gallery-item gallery-item--5" style="--reveal-delay:110ms">
-            <button type="button" data-gallery-index="10" aria-label="Ampliar foto: Fácil acesso em Marília">
+          <div class="reveal gallery-item gallery-item--1">
+            <button type="button" data-gallery-index="12" aria-label="Ampliar foto: Fácil acesso em Marília">
               <img src="assets/images/recanto/acesso-lateral-palmeiras-768.webp" srcset="assets/images/recanto/acesso-lateral-palmeiras-480.webp 480w, assets/images/recanto/acesso-lateral-palmeiras-768.webp 768w, assets/images/recanto/acesso-lateral-palmeiras-1200.webp 1200w, assets/images/recanto/acesso-lateral-palmeiras-1600.webp 1600w" sizes="(max-width:640px) 92vw, (max-width:1024px) 45vw, 30vw" width="6048" height="8064" alt="Acesso lateral com calçada e palmeiras ao longo do muro" style="object-position:50% 55%" loading="lazy" decoding="async">
               <span class="gallery-item__overlay"><span>Localização</span><strong>Fácil acesso em Marília</strong><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></span>
             </button>
@@ -465,7 +499,7 @@
             <div class="reveal" style="--reveal-delay:150ms"><p>O Recanto Florença fica dentro de Marília, com acesso pela pista e sem estrada de chão. A localização próxima a mercados e comércios oferece mais praticidade antes e durante o seu evento.</p></div>
             <div class="reveal location__tag" style="--reveal-delay:210ms"><span>Marília</span><i></i><span>São Paulo</span></div>
           </div>
-          <div class="reveal location__visual">
+          <div class="reveal location__visual" data-motion="reveal">
             <div class="location__image-main">
               <img src="assets/images/recanto/acesso-lateral-palmeiras-768.webp" srcset="assets/images/recanto/acesso-lateral-palmeiras-480.webp 480w, assets/images/recanto/acesso-lateral-palmeiras-768.webp 768w, assets/images/recanto/acesso-lateral-palmeiras-1200.webp 1200w, assets/images/recanto/acesso-lateral-palmeiras-1600.webp 1600w" sizes="(max-width:768px) 92vw, 42vw" width="6048" height="8064" alt="Acesso lateral ao Recanto Florença com calçada e palmeiras ao longo do muro" style="object-position:50% 55%" loading="lazy" decoding="async">
             </div>
@@ -515,27 +549,23 @@
         <div class="faq-list">
           <div class="reveal faq-item is-open">
             <button type="button" aria-expanded="true" aria-controls="faq-answer-0"><span>01</span><strong>Qual é a capacidade do Recanto Florença?</strong><i aria-hidden="true"></i></button>
-            <div id="faq-answer-0" class="faq-item__answer"><p>O espaço recebe eventos com até 80 pessoas, com mesas e cadeiras para acomodar os convidados.</p></div>
+            <div id="faq-answer-0" class="faq-item__answer is-visible"><p>O espaço recebe eventos com até 80 pessoas, com mesas e cadeiras para acomodar os convidados.</p></div>
           </div>
           <div class="reveal faq-item" style="--reveal-delay:50ms">
             <button type="button" aria-expanded="false" aria-controls="faq-answer-1"><span>02</span><strong>O Recanto fica dentro da cidade?</strong><i aria-hidden="true"></i></button>
             <div id="faq-answer-1" class="faq-item__answer" hidden><p>Sim. O Recanto Florença fica em Marília, com fácil acesso pela pista e sem estrada de chão.</p></div>
           </div>
-          <div class="reveal faq-item" style="--reveal-delay:100ms">
-            <button type="button" aria-expanded="false" aria-controls="faq-answer-2"><span>03</span><strong>O espaço possui quartos?</strong><i aria-hidden="true"></i></button>
-            <div id="faq-answer-2" class="faq-item__answer" hidden><p>Sim. São dois quartos com ar-condicionado, 12 camas e 8 colchões, com acomodação de apoio para até 20 pessoas. Os quartos ficam disponíveis em locações de duas ou mais diárias.</p></div>
-          </div>
           <div class="reveal faq-item">
-            <button type="button" aria-expanded="false" aria-controls="faq-answer-3"><span>04</span><strong>A cozinha possui utensílios?</strong><i aria-hidden="true"></i></button>
-            <div id="faq-answer-3" class="faq-item__answer" hidden><p>Sim. O espaço conta com fogão semi-industrial com forno, geladeira, freezer, churrasqueira, pratos, talheres, panelas e outros utensílios.</p></div>
+            <button type="button" aria-expanded="false" aria-controls="faq-answer-2"><span>03</span><strong>A cozinha possui utensílios?</strong><i aria-hidden="true"></i></button>
+            <div id="faq-answer-2" class="faq-item__answer" hidden><p>Sim. O espaço conta com fogão semi-industrial com forno, geladeira, freezer, churrasqueira, pratos, talheres, panelas e outros utensílios.</p></div>
           </div>
           <div class="reveal faq-item" style="--reveal-delay:50ms">
-            <button type="button" aria-expanded="false" aria-controls="faq-answer-4"><span>05</span><strong>Qual é o horário padrão?</strong><i aria-hidden="true"></i></button>
-            <div id="faq-answer-4" class="faq-item__answer" hidden><p>O horário padrão informado é das 8h às 22h. Permanências e pacotes diferentes devem ser consultados pelo WhatsApp.</p></div>
+            <button type="button" aria-expanded="false" aria-controls="faq-answer-3"><span>04</span><strong>Qual é o horário padrão?</strong><i aria-hidden="true"></i></button>
+            <div id="faq-answer-3" class="faq-item__answer" hidden><p>O horário padrão informado é das 8h às 22h. Permanências e pacotes diferentes devem ser consultados pelo WhatsApp.</p></div>
           </div>
           <div class="reveal faq-item" style="--reveal-delay:100ms">
-            <button type="button" aria-expanded="false" aria-controls="faq-answer-5"><span>06</span><strong>Como funciona a reserva?</strong><i aria-hidden="true"></i></button>
-            <div id="faq-answer-5" class="faq-item__answer" hidden><p>As condições podem variar conforme a data e o pacote. Envie a data, o tipo de evento e a quantidade de pessoas para receber a orientação completa.</p></div>
+            <button type="button" aria-expanded="false" aria-controls="faq-answer-4"><span>05</span><strong>Como funciona a reserva?</strong><i aria-hidden="true"></i></button>
+            <div id="faq-answer-4" class="faq-item__answer" hidden><p>As condições podem variar conforme a data e o pacote. Envie a data, o tipo de evento e a quantidade de pessoas para receber a orientação completa.</p></div>
           </div>
         </div>
       </div>
@@ -604,7 +634,8 @@
     </button>
   </div>
 
-  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/observability-loader.js" type="module"></script>
+  <script src="assets/js/main.js" type="module"></script>
   <script src="assets/js/seasonal-popup.js" defer></script>
 </body>
 </html>

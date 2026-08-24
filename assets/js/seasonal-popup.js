@@ -1,6 +1,4 @@
-(function () {
-  "use strict";
-
+(() => {
   var overlay = document.getElementById("rf-overlay");
   if (!overlay) return;
 
@@ -10,15 +8,15 @@
   var active = false;
 
   var flakes = "❄❅❆";
-  for (var index = 0; index < 28; index += 1) {
-    var flake = document.createElement("span");
+  for (let index = 0; index < 28; index += 1) {
+    const flake = document.createElement("span");
     flake.className = "rf-flake";
     flake.setAttribute("aria-hidden", "true");
     flake.textContent = flakes[Math.floor(Math.random() * flakes.length)];
-    flake.style.left = Math.random() * 100 + "%";
-    flake.style.fontSize = 10 + Math.random() * 16 + "px";
-    flake.style.animationDuration = 6 + Math.random() * 8 + "s";
-    flake.style.animationDelay = Math.random() * 8 + "s";
+    flake.style.left = `${Math.random() * 100}%`;
+    flake.style.fontSize = `${10 + Math.random() * 16}px`;
+    flake.style.animationDuration = `${6 + Math.random() * 8}s`;
+    flake.style.animationDelay = `${Math.random() * 8}s`;
     flake.style.opacity = 0.3 + Math.random() * 0.6;
     overlay.appendChild(flake);
   }
