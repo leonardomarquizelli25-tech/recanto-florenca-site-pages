@@ -3522,13 +3522,105 @@ a.review-card__author:hover strong {
 }
 
 .rf-sub {
-  margin-bottom: 26px;
+  margin-bottom: 20px;
   color: rgba(255, 255, 255, 0.85);
   font-family: "Lora", Georgia, serif;
   font-size: clamp(0.95rem, 2.5vw, 1.12rem);
   font-style: italic;
   opacity: 0;
   transform: translateY(10px);
+}
+
+.rf-availability {
+  width: min(100%, 430px);
+  margin: 0 auto 24px;
+  padding: 7px 12px;
+  border: 1px solid rgba(201, 162, 75, 0.28);
+  border-radius: 14px;
+  background: rgba(16, 36, 27, 0.72);
+  box-shadow: 0 12px 32px rgba(4, 16, 10, 0.22);
+  font-family: "Montserrat", Arial, sans-serif;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.rf-availability__row {
+  display: grid;
+  min-height: 36px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.rf-availability__row + .rf-availability__row {
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.rf-availability__name {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.rf-availability__badge {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rf-availability__row--booked .rf-availability__name {
+  color: rgba(255, 255, 255, 0.42);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.rf-availability__row--booked .rf-availability__badge {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.rf-availability__row--available .rf-availability__name {
+  color: var(--rf-gold);
+}
+
+.rf-availability__row--available .rf-availability__badge {
+  border: 1px solid rgba(201, 162, 75, 0.38);
+  background: rgba(201, 162, 75, 0.14);
+  color: var(--rf-gold);
+}
+
+.rf-status-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: var(--rf-gold);
+}
+
+.rf-status-dot::after {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--rf-gold);
+  border-radius: inherit;
+  content: "";
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+#rf-overlay.show .rf-status-dot::after {
+  animation: rf-status-pulse 2.4s 900ms cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
 .rf-icons {
@@ -3617,32 +3709,36 @@ a.review-card__author:hover strong {
   animation: rf-pop-in 320ms 180ms var(--ease-out) forwards;
 }
 
+#rf-overlay.show .rf-availability {
+  animation: rf-pop-in 320ms 230ms var(--ease-out) forwards;
+}
+
 #rf-overlay.show .rf-icon {
   animation: rf-icon-pop 280ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-icon:nth-child(1) {
-  animation-delay: 230ms;
+  animation-delay: 300ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(2) {
-  animation-delay: 275ms;
+  animation-delay: 345ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(3) {
-  animation-delay: 320ms;
+  animation-delay: 390ms;
 }
 
 #rf-overlay.show .rf-icon:nth-child(4) {
-  animation-delay: 365ms;
+  animation-delay: 435ms;
 }
 
 #rf-overlay.show .rf-package {
-  animation: rf-pop-in 320ms 410ms var(--ease-out) forwards;
+  animation: rf-pop-in 320ms 485ms var(--ease-out) forwards;
 }
 
 #rf-overlay.show .rf-btn {
-  animation: rf-pop-in 320ms 460ms var(--ease-out) forwards;
+  animation: rf-pop-in 320ms 535ms var(--ease-out) forwards;
 }
 
 @keyframes rf-pop-in {
@@ -3655,6 +3751,20 @@ a.review-card__author:hover strong {
 @keyframes rf-icon-pop {
   to {
     opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rf-status-pulse {
+  0%,
+  45%,
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  18% {
+    opacity: 0.48;
     transform: scale(1);
   }
 }
@@ -3704,6 +3814,7 @@ a.review-card__author:hover strong {
   }
 
   .rf-sub,
+  .rf-availability,
   .rf-icons,
   .rf-package {
     margin-bottom: 14px;
@@ -3736,15 +3847,20 @@ a.review-card__author:hover strong {
     display: none;
   }
 
-  #rf-overlay .rf-tag,
-  #rf-overlay .rf-title,
-  #rf-overlay .rf-sub,
-  #rf-overlay .rf-icon,
-  #rf-overlay .rf-package,
-  #rf-overlay .rf-btn {
+  #rf-overlay.show .rf-tag,
+  #rf-overlay.show .rf-title,
+  #rf-overlay.show .rf-sub,
+  #rf-overlay.show .rf-availability,
+  #rf-overlay.show .rf-icon,
+  #rf-overlay.show .rf-package,
+  #rf-overlay.show .rf-btn {
     opacity: 1;
     transform: none;
     animation: none;
+  }
+
+  #rf-overlay .rf-status-dot::after {
+    display: none;
   }
 }
 
