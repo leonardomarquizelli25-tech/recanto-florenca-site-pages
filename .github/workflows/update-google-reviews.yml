@@ -10,12 +10,49 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    uses: leonardomarquizelli25-tech/recanto-florenca-site/.github/workflows/update-google-reviews.yml@main
-    with:
-      place_id: ChIJzZCkmnnav5QRE-cTdB3U__8
-      source_ref: main
-      custom_domain: recantoflorenca.com.br
-    secrets:
-      GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch Google reviews
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          GOOGLE_PLACE_ID: ChIJzZCkmnnav5QRE-cTdB3U__8
+        run: node scripts/fetch-reviews.mjs
+
+      - name: Validate reviews cache
+        run: node scripts/validate-reviews-cache.mjs
+
+      - name: Stage public site
+        shell: bash
+        run: |
+          mkdir -p _site
+          cp -R assets data _site/
+          cp index.html politica-de-privacidade.html CNAME .nojekyll llms.txt robots.txt sitemap.xml _site/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
