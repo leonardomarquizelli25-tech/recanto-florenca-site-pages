@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1b3a2d">
+  <meta name="description" content="Política de privacidade do Recanto Florença e informações sobre o uso de dados públicos das avaliações do Google.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://recantoflorenca.com.br/politica-de-privacidade.html">
+  <title>Política de Privacidade | Recanto Florença</title>
+  <link rel="icon" href="assets/images/brand/recanto-florenca-favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="assets/images/brand/recanto-florenca-favicon-180.png" sizes="180x180">
+  <link rel="preload" href="assets/fonts/montserrat.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>
+    (function (root) {
+      var ready = false;
+      function revealFonts() {
+        if (ready) return;
+        ready = true;
+        root.classList.remove("fonts-pending");
+        root.classList.add("fonts-ready");
+      }
+      root.classList.add("js", "fonts-pending");
+      window.setTimeout(revealFonts, 2500);
+      if (document.fonts && document.fonts.ready) {
+        Promise.all([
+          document.fonts.load('500 1em "Cinzel"'),
+          document.fonts.load('600 1em "Montserrat"')
+        ]).then(revealFonts, revealFonts);
+      } else {
+        revealFonts();
+      }
+    })(document.documentElement);
+  </script>
+</head>
+<body class="privacy-page">
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="privacy-header">
+    <a class="brand" href="./" aria-label="Ir para a página inicial do Recanto Florença">
+      <img class="brand__official-logo" src="assets/images/brand/recanto-florenca-logo-oficial.png" width="375" height="101" alt="Recanto Florença">
+    </a>
+    <a class="privacy-header__back" href="./">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+      Voltar ao site
+    </a>
+  </header>
+
+  <main id="conteudo">
+    <section class="privacy-hero" aria-labelledby="privacy-title">
+      <div class="privacy-hero__inner">
+        <p class="eyebrow eyebrow--gold"><span></span>Transparência e cuidado</p>
+        <h1 id="privacy-title">Política de privacidade</h1>
+        <p class="privacy-hero__intro">Esta página explica, em linguagem direta, como o Recanto Florença utiliza dados do Google para exibir avaliações reais no próprio site.</p>
+        <time class="privacy-hero__updated" datetime="2026-08-28">Última atualização: 28 de agosto de 2026</time>
+      </div>
+    </section>
+
+    <div class="privacy-main">
+      <article class="privacy-document">
+        <section aria-labelledby="privacy-controller">
+          <h2 id="privacy-controller">Quem é o responsável</h2>
+          <p>O Recanto Florença, espaço para festas e eventos em Marília, é responsável pelo tratamento descrito nesta política e pela atualização da seção “Avaliações no Google” exibida em seu site oficial.</p>
+        </section>
+
+        <section aria-labelledby="privacy-data">
+          <h2 id="privacy-data">Quais dados do Google são acessados</h2>
+          <p>A integração acessa a conta do Perfil da Empresa no Google administrada pelo Recanto Florença somente para localizar o estabelecimento correto e consultar suas avaliações.</p>
+          <p>O arquivo público exibido no site pode conter, para no máximo cinco avaliações recentes:</p>
+          <ul>
+            <li>nome público e foto pública do autor, quando fornecidos pelo Google;</li>
+            <li>nota em estrelas, comentário público e data da avaliação;</li>
+            <li>nota média, quantidade total de avaliações e link do local no Google Maps.</li>
+          </ul>
+          <div class="privacy-note">
+            <p><strong>O que não fazemos:</strong> não solicitamos senhas do Google, não acessamos mensagens privadas, não criamos avaliações, não alteramos avaliações existentes e não usamos esses dados para publicidade direcionada.</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="privacy-use">
+          <h2 id="privacy-use">Como os dados são usados</h2>
+          <p>Os dados são usados exclusivamente para manter uma seção do site com avaliações reais e atualizadas do Recanto Florença. A atualização é executada de forma automática e independente do navegador dos visitantes.</p>
+          <p>O site não chama a API do Google diretamente e não recebe credenciais de quem visita a página.</p>
+        </section>
+
+        <section aria-labelledby="privacy-storage">
+          <h2 id="privacy-storage">Armazenamento e segurança</h2>
+          <p>O identificador do cliente OAuth, a chave secreta e o token de atualização ficam protegidos como segredos do GitHub Actions. Eles não são incluídos no código-fonte nem enviados ao navegador.</p>
+          <p>Durante cada atualização, o token de acesso existe apenas temporariamente na memória do processo. Em seguida, as cinco avaliações selecionadas e os dados agregados são gravados em um arquivo estático público. Esse arquivo é substituído a cada atualização e deixa de ser exibido automaticamente se estiver ausente, inválido ou vencido.</p>
+        </section>
+
+        <section aria-labelledby="privacy-sharing">
+          <h2 id="privacy-sharing">Compartilhamento e retenção</h2>
+          <p>O Recanto Florença não vende nem comercializa dados do Google. O processamento técnico utiliza os serviços do Google para consultar as avaliações e a infraestrutura do GitHub para executar a atualização e hospedar o site.</p>
+          <p>O cache público permanece somente pelo período necessário para manter a seção atualizada e é substituído na próxima execução. Avaliações removidas ou modificadas no Google deixam de aparecer após uma atualização bem-sucedida.</p>
+          <p>O uso dos serviços do Google também está sujeito à <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" rel="noopener noreferrer">Política de Privacidade do Google</a>.</p>
+        </section>
+
+        <section aria-labelledby="privacy-rights">
+          <h2 id="privacy-rights">Dúvidas e solicitações</h2>
+          <div class="privacy-contact">
+            <p>Para esclarecer dúvidas sobre esta política ou solicitar a revisão de informações exibidas no site, fale diretamente com a equipe do Recanto Florença.</p>
+            <a class="button button--primary" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">Falar pelo WhatsApp</a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="section-shell">
+      <div class="footer__top">
+        <a class="brand" href="./" aria-label="Ir para a página inicial do Recanto Florença">
+          <img class="brand__official-logo" src="assets/images/brand/recanto-florenca-logo-oficial.png" width="375" height="101" alt="Recanto Florença">
+        </a>
+        <p>Elegância que transforma momentos em memórias.</p>
+        <a class="footer__social" href="https://instagram.com/recantoflorenca" target="_blank" rel="noopener noreferrer" aria-label="Instagram do Recanto Florença">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.8" r=".8" class="icon-fill"></circle></svg>
+        </a>
+      </div>
+      <div class="footer__links">
+        <div><span>Explore</span><a href="./#recanto">O Recanto</a><a href="./#estrutura">Estrutura</a><a href="./#galeria">Galeria</a></div>
+        <div><span>Informações</span><a href="./#eventos">Tipos de evento</a><a href="./#localizacao">Localização</a><a href="./#duvidas">Perguntas frequentes</a><a href="politica-de-privacidade.html" aria-current="page">Política de privacidade</a></div>
+        <div class="footer__contact"><span>Contato</span><a href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="https://instagram.com/recantoflorenca" target="_blank" rel="noopener noreferrer">@recantoflorenca</a><p>Marília · SP</p></div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Recanto Florença</span>
+        <span>Todos os direitos reservados</span>
+        <a href="#conteudo">Voltar ao topo <svg viewBox="0 0 24 24" aria-hidden="true" style="transform:rotate(-90deg)"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
