@@ -1,4 +1,4 @@
-(function (window, document) {
+((window, document) => {
   var ga4MeasurementId = "G-L7HMG2HS79";
   var clarityProjectId = "y3hx00mjoc";
 
@@ -58,7 +58,7 @@
     window.gtag("event", eventName, parameters);
   }
 
-  document.addEventListener("click", function (event) {
+  document.addEventListener("click", (event) => {
     var eventTarget = event.target;
     var clickable = eventTarget.closest ? eventTarget.closest("a, button") : null;
 
@@ -114,7 +114,7 @@
     }
   });
 
-  document.addEventListener("submit", function (event) {
+  document.addEventListener("submit", (event) => {
     var form = event.target;
 
     if (!(form instanceof window.HTMLFormElement)) {
