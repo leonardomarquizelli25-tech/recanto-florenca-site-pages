@@ -85,6 +85,7 @@
       <a href="#galeria">Galeria</a>
       <a href="#eventos">Eventos</a>
       <a href="#localizacao">Localização</a>
+      <a href="#avaliacoes" data-reviews-nav hidden>Avaliações</a>
       <a href="#duvidas">Dúvidas</a>
     </nav>
 
@@ -106,6 +107,7 @@
       <a href="#galeria">Galeria</a>
       <a href="#eventos">Eventos</a>
       <a href="#localizacao">Localização</a>
+      <a href="#avaliacoes" data-reviews-nav hidden>Avaliações</a>
       <a href="#duvidas">Dúvidas</a>
     </nav>
     <div class="mobile-menu__footer">
@@ -533,6 +535,37 @@
       </div>
     </section>
 
+    <section class="reviews-section section" id="avaliacoes" aria-labelledby="reviews-title" data-reviews-section hidden>
+      <div class="section-shell">
+        <div class="reviews__heading">
+          <div>
+            <p class="eyebrow eyebrow--gold"><span></span>Experiências compartilhadas</p>
+            <h2 id="reviews-title">Avaliações no Google</h2>
+            <p class="reviews__summary" data-reviews-summary></p>
+          </div>
+          <div class="reviews__attribution" aria-label="Conteúdo fornecido pelo Google Maps">
+            <img src="assets/images/brand/google-maps-logo-dark-gray.svg" width="98" height="18" alt="Google Maps">
+            <span>Avaliações do Google</span>
+          </div>
+        </div>
+
+        <p class="reviews__demo" data-reviews-demo hidden>
+          Prévia de layout com avaliações fictícias. Nenhum depoimento abaixo representa uma avaliação real.
+        </p>
+
+        <div class="reviews-track" data-reviews-list aria-label="Avaliações recentes do Google"></div>
+
+        <div class="reviews__footer">
+          <p>Exibimos até cinco avaliações, ordenadas pela atualização mais recente. O conteúdo e as notas são apresentados sem alterações.</p>
+          <a class="reviews__all-link" data-all-reviews href="https://www.google.com/maps/search/?api=1&amp;query=Recanto+Floren%C3%A7a+Mar%C3%ADlia" target="_blank" rel="noopener noreferrer">
+            Ver todas as avaliações no Google
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+        <p class="reviews__policy">As avaliações não são verificadas individualmente pelo Google, mas conteúdo falso pode ser removido quando identificado.</p>
+      </div>
+    </section>
+
     <section class="faq section" id="duvidas" aria-labelledby="faq-title">
       <div class="section-shell faq__grid">
         <div class="faq__heading">
@@ -636,6 +669,7 @@
 
   <script src="assets/js/observability-loader.js" type="module"></script>
   <script src="assets/js/main.js" type="module"></script>
+  <script src="assets/js/reviews.js" type="module"></script>
   <script src="assets/js/seasonal-popup.js" defer></script>
 </body>
 </html>
