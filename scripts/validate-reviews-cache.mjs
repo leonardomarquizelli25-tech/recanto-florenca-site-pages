@@ -1,11 +1,18 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { CACHE_MAX_AGE_DAYS, REVIEW_PAGE_SIZE } from "./fetch-reviews.mjs";
+import { CACHE_MAX_AGE_DAYS, MINIMUM_DISPLAY_RATING, REVIEW_PAGE_SIZE } from "./fetch-reviews.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultCachePath = path.join(projectRoot, "data", "reviews.json");
 const validStarRatings = new Set(["ONE", "TWO", "THREE", "FOUR", "FIVE"]);
+const starRatingValues = new Map([
+  ["ONE", 1],
+  ["TWO", 2],
+  ["THREE", 3],
+  ["FOUR", 4],
+  ["FIVE", 5],
+]);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -14,6 +21,10 @@ function assert(condition, message) {
 export function validateReviewCache(data, now = new Date()) {
   assert(data?.source === "google-places-api-new", "O cache não veio da Places API (New).");
   assert(data?.isDemo === false, "O cache de publicação não pode conter dados de demonstração.");
+  assert(
+    data?.minimumDisplayedRating === MINIMUM_DISPLAY_RATING,
+    `O cache deve exibir somente avaliações a partir de ${MINIMUM_DISPLAY_RATING} estrelas.`,
+  );
 
   const fetchedAt = new Date(data?.fetchedAt);
   const expiresAt = new Date(data?.expiresAt);
@@ -36,6 +47,10 @@ export function validateReviewCache(data, now = new Date()) {
   for (const review of data.reviews) {
     assert(typeof review?.reviewId === "string" && review.reviewId, "Uma avaliação não tem reviewId.");
     assert(validStarRatings.has(review?.starRating), "Uma avaliação tem nota inválida.");
+    assert(
+      starRatingValues.get(review.starRating) >= MINIMUM_DISPLAY_RATING,
+      `Uma avaliação tem menos de ${MINIMUM_DISPLAY_RATING} estrelas.`,
+    );
     assert(typeof review?.comment === "string", "Uma avaliação tem comentário inválido.");
   }
 

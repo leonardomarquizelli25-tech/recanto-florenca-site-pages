@@ -6,6 +6,7 @@ export const PLACE_DETAILS_ENDPOINT = "https://places.googleapis.com/v1/places";
 export const PLACE_DETAILS_FIELD_MASK = "displayName,rating,userRatingCount,reviews";
 export const REVIEW_ORDER = "most-relevant";
 export const REVIEW_PAGE_SIZE = 5;
+export const MINIMUM_DISPLAY_RATING = 4;
 export const CACHE_MAX_AGE_DAYS = 29;
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -97,7 +98,10 @@ export function createTransientReviewCache({ payload, placeId, fetchedAt = new D
   const averageRating = Number(payload?.rating);
   const totalReviewCount = Number(payload?.userRatingCount);
   const reviews = Array.isArray(payload?.reviews)
-    ? payload.reviews.slice(0, REVIEW_PAGE_SIZE).map(normalizeReview)
+    ? payload.reviews
+        .filter((review) => Number(review?.rating) >= MINIMUM_DISPLAY_RATING)
+        .slice(0, REVIEW_PAGE_SIZE)
+        .map(normalizeReview)
     : [];
 
   return {
@@ -107,6 +111,7 @@ export function createTransientReviewCache({ payload, placeId, fetchedAt = new D
     fetchedAt,
     expiresAt: addDays(fetchedAt, CACHE_MAX_AGE_DAYS),
     order: REVIEW_ORDER,
+    minimumDisplayedRating: MINIMUM_DISPLAY_RATING,
     location: {
       title,
       placeId,
