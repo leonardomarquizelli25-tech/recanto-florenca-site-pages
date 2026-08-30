@@ -1,4 +1,5 @@
 const REVIEW_PREVIEW_LIMIT = 150;
+const MINIMUM_DISPLAY_RATING = 4;
 const GOOGLE_STAR_RATINGS = {
   ONE: 1,
   TWO: 2,
@@ -212,7 +213,7 @@ async function loadReviews() {
     const reviews = Array.isArray(data?.reviews)
       ? data.reviews
           .map(normalizeBusinessProfileReview)
-          .filter((review) => review.text)
+          .filter((review) => review.text && review.rating >= MINIMUM_DISPLAY_RATING)
           .slice(0, 5)
       : [];
     const summary = formatAverage(data?.averageRating, data?.totalReviewCount);
