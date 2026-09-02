@@ -54,7 +54,12 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     });
   });
 
-  var reducedMotion = prefersReducedMotion();
+  var motionPreviewEnabled =
+    ["127.0.0.1", "localhost"].includes(window.location.hostname) &&
+    new URLSearchParams(window.location.search).get("preview") === "gallery";
+  document.documentElement.classList.toggle("motion-preview", motionPreviewEnabled);
+
+  var reducedMotion = prefersReducedMotion() && !motionPreviewEnabled;
   var revealElements = document.querySelectorAll(".reveal[data-motion='reveal']");
   var revealObserver;
   if ("IntersectionObserver" in window && !reducedMotion) {
@@ -78,6 +83,160 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     });
   }
 
+  var galleryCards = Array.from(document.querySelectorAll('[data-motion="gallery-card"]'));
+  var galleryDeck = document.querySelector("[data-gallery-deck]");
+  var galleryDeckSteps = document.querySelector("[data-gallery-deck-steps]");
+  var galleryDeckCurrent = document.querySelector("[data-gallery-deck-current]");
+  var galleryDeckMedia = window.matchMedia("(max-width: 960px)");
+  var galleryStepObserver;
+  var galleryViewportState = { inView: false, index: 0 };
+
+  function setGalleryDeckCard(activeIndex) {
+    galleryCards.forEach((card, index) => {
+      var depth = activeIndex - index;
+      var isVisible = depth >= 0;
+      var isActive = depth === 0;
+      var visibleDepth = Math.min(Math.max(depth, 0), 5);
+      var direction = index % 2 === 0 ? -1 : 1;
+
+      card.classList.toggle("is-gallery-visible", isVisible);
+      card.classList.toggle("is-gallery-active", isActive);
+      card.style.setProperty("--gallery-card-order", String(index + 1));
+      card.style.setProperty("--gallery-stack-x", `${direction * visibleDepth * 7}px`);
+      card.style.setProperty("--gallery-stack-y", `${visibleDepth * -11}px`);
+      card.style.setProperty("--gallery-stack-rotate", `${direction * Math.min(visibleDepth, 3) * 1.05}deg`);
+      card.style.setProperty("--gallery-stack-scale", String(1 - visibleDepth * 0.024));
+      card.style.setProperty(
+        "--gallery-stack-opacity",
+        String(depth > 5 ? 0 : Math.max(0.34, 1 - visibleDepth * 0.11)),
+      );
+
+      var button = card.querySelector("button");
+      card.setAttribute("aria-hidden", isActive ? "false" : "true");
+      if (button) button.setAttribute("tabindex", isActive ? "0" : "-1");
+    });
+    if (galleryDeckCurrent) {
+      galleryDeckCurrent.textContent = String(activeIndex + 1).padStart(2, "0");
+    }
+  }
+
+  function syncGalleryDeckWithViewport() {
+    if (!galleryDeckSteps) return;
+    var steps = Array.from(galleryDeckSteps.children);
+    if (steps.length === 0) return;
+    var viewportAnchor = window.innerHeight * 0.52;
+    var closestIndex = steps.reduce((bestIndex, step, index) => {
+      var rect = step.getBoundingClientRect();
+      var distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
+      var bestRect = steps[bestIndex].getBoundingClientRect();
+      var bestDistance = Math.abs(bestRect.top + bestRect.height / 2 - viewportAnchor);
+      return distance < bestDistance ? index : bestIndex;
+    }, 0);
+    setGalleryDeckCard(closestIndex);
+  }
+
+  function disableGalleryDeck() {
+    if (galleryStepObserver) {
+      galleryStepObserver.disconnect();
+      galleryStepObserver = undefined;
+    }
+    if (galleryDeck) galleryDeck.classList.remove("gallery-deck--ready");
+    if (galleryDeckSteps) galleryDeckSteps.replaceChildren();
+
+    galleryCards.forEach((card) => {
+      card.classList.add("is-gallery-visible");
+      card.classList.add("is-gallery-active");
+      card.removeAttribute("aria-hidden");
+      var button = card.querySelector("button");
+      if (button) button.removeAttribute("tabindex");
+    });
+  }
+
+  function enableGalleryDeck() {
+    if (!galleryDeck || !galleryDeckSteps || galleryCards.length === 0) return;
+    galleryDeckSteps.replaceChildren();
+    galleryCards.forEach((card, index) => {
+      card.style.setProperty("--gallery-enter-x", index % 2 === 0 ? "-42vw" : "42vw");
+      card.style.setProperty("--gallery-enter-rotate", index % 2 === 0 ? "-5deg" : "5deg");
+      var step = document.createElement("span");
+      step.className = "gallery-deck__step";
+      step.dataset.galleryDeckStep = String(index);
+      galleryDeckSteps.appendChild(step);
+    });
+    galleryDeck.classList.add("gallery-deck--ready");
+    setGalleryDeckCard(0);
+
+    galleryStepObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) syncGalleryDeckWithViewport();
+      },
+      { threshold: [0, 0.2, 0.5], rootMargin: "-18% 0px -18% 0px" },
+    );
+    Array.from(galleryDeckSteps.children).forEach((step) => {
+      galleryStepObserver.observe(step);
+    });
+    window.requestAnimationFrame(syncGalleryDeckWithViewport);
+  }
+
+  function syncGalleryDeckMode() {
+    var canUseDeck = galleryDeckMedia.matches && "IntersectionObserver" in window && !reducedMotion;
+    if (canUseDeck) enableGalleryDeck();
+    else disableGalleryDeck();
+  }
+
+  function rememberGalleryViewportState() {
+    if (!galleryDeck || galleryCards.length === 0) return;
+    var gallerySection = galleryDeck.closest("#galeria");
+    if (!gallerySection) return;
+    var sectionRect = gallerySection.getBoundingClientRect();
+    galleryViewportState.inView = sectionRect.bottom > 0 && sectionRect.top < window.innerHeight;
+    if (!galleryViewportState.inView) return;
+
+    var activeCard = galleryCards.findIndex((card) => card.classList.contains("is-gallery-active"));
+    if (galleryDeck.classList.contains("gallery-deck--ready") && activeCard >= 0) {
+      galleryViewportState.index = activeCard;
+      return;
+    }
+
+    var viewportAnchor = window.innerHeight * 0.52;
+    galleryViewportState.index = galleryCards.reduce((bestIndex, card, index) => {
+      var rect = card.getBoundingClientRect();
+      var distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
+      var bestRect = galleryCards[bestIndex].getBoundingClientRect();
+      var bestDistance = Math.abs(bestRect.top + bestRect.height / 2 - viewportAnchor);
+      return distance < bestDistance ? index : bestIndex;
+    }, 0);
+  }
+
+  function handleGalleryDeckMediaChange() {
+    var shouldRestoreFocus = galleryViewportState.inView;
+    var focusedIndex = galleryViewportState.index;
+    syncGalleryDeckMode();
+    if (!shouldRestoreFocus) return;
+
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        var target = galleryDeckMedia.matches
+          ? galleryDeckSteps?.children[focusedIndex]
+          : galleryCards[focusedIndex];
+        if (!target) return;
+        var targetRect = target.getBoundingClientRect();
+        var targetAnchor = window.innerHeight * (galleryDeckMedia.matches ? 0.52 : 0.5);
+        window.scrollTo({
+          top: window.scrollY + targetRect.top + targetRect.height / 2 - targetAnchor,
+          behavior: "instant",
+        });
+        if (galleryDeckMedia.matches) setGalleryDeckCard(focusedIndex);
+        rememberGalleryViewportState();
+      });
+    });
+  }
+
+  syncGalleryDeckMode();
+  window.requestAnimationFrame(rememberGalleryViewportState);
+  window.addEventListener("scroll", rememberGalleryViewportState, { passive: true });
+  galleryDeckMedia.addEventListener("change", handleGalleryDeckMediaChange);
+
   document.querySelectorAll("img[loading='lazy']").forEach((image) => {
     if (image.matches("[data-experience-image], .events__background img, .final-cta__image img")) return;
     if (image.complete) return;
@@ -97,36 +256,100 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
 
   var experienceSteps = Array.from(document.querySelectorAll("[data-experience-step]"));
   var experienceImages = Array.from(document.querySelectorAll("[data-experience-image]"));
+  var experienceSection = document.querySelector(".experience");
+  var experienceLive = document.querySelector("[data-experience-live]");
+  var experienceLivePanels = [];
+  var mobileExperienceMedia = window.matchMedia("(max-width: 960px)");
+  var experienceObserver;
   var experienceAlts = [
     "Área interna ampla do Recanto Florença com balcão, mesas de apoio e acesso envidraçado",
     "Balcão com banquetas e área de preparo com churrasqueira no Recanto Florença",
     "Piscina do Recanto Florença ao lado do deck, cercada por palmeiras e área externa",
     "Corredor coberto com fechamento de vidro que conecta os ambientes do Recanto Florença",
+    "Dormitório climatizado do Recanto Florença com beliches de madeira e colchões azuis",
   ];
   var experienceCounter = document.querySelector(".experience__counter span");
+  if (experienceSection && experienceLive && experienceSteps.length > 0) {
+    experienceSteps.forEach((step, index) => {
+      var panel = document.createElement("div");
+      panel.className = `experience__mobile-panel${index === 0 ? " is-active" : ""}`;
+      panel.dataset.experiencePanel = String(index);
+      panel.setAttribute("aria-hidden", index === 0 ? "false" : "true");
+
+      Array.from(step.children).forEach((child) => {
+        if (!child.classList.contains("experience-step__mobile-image")) {
+          panel.appendChild(child.cloneNode(true));
+        }
+      });
+
+      panel.querySelectorAll("a").forEach((link) => {
+        link.setAttribute("tabindex", "-1");
+      });
+      experienceLive.appendChild(panel);
+      experienceLivePanels.push(panel);
+    });
+    experienceSection.classList.add("experience--synced-mobile");
+  }
+
+  function syncExperienceAccessibility() {
+    var isMobile = mobileExperienceMedia.matches;
+    experienceSteps.forEach((step) => {
+      if (isMobile) step.setAttribute("aria-hidden", "true");
+      else step.removeAttribute("aria-hidden");
+      step.querySelectorAll("a").forEach((link) => {
+        if (isMobile) link.setAttribute("tabindex", "-1");
+        else link.removeAttribute("tabindex");
+      });
+    });
+    if (experienceLive) experienceLive.setAttribute("aria-hidden", isMobile ? "false" : "true");
+  }
+
   function setExperience(index) {
     experienceSteps.forEach((step, position) => {
       step.classList.toggle("is-active", position === index);
+      if (position === index) step.setAttribute("aria-current", "step");
+      else step.removeAttribute("aria-current");
     });
     experienceImages.forEach((image, position) => {
       image.classList.toggle("is-active", position === index);
       image.alt = position === index ? experienceAlts[position] : "";
     });
-    experienceCounter.textContent = String(index + 1).padStart(2, "0");
-  }
-  var experienceObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setExperience(Number(entry.target.getAttribute("data-experience-step")));
-        }
+    experienceLivePanels.forEach((panel, position) => {
+      var isActive = position === index;
+      panel.classList.toggle("is-active", isActive);
+      panel.setAttribute("aria-hidden", isActive ? "false" : "true");
+      panel.querySelectorAll("a").forEach((link) => {
+        link.setAttribute("tabindex", isActive && mobileExperienceMedia.matches ? "0" : "-1");
       });
-    },
-    { threshold: 0.55, rootMargin: "-15% 0px -20% 0px" },
-  );
-  experienceSteps.forEach((step) => {
-    experienceObserver.observe(step);
-  });
+    });
+    if (experienceCounter) experienceCounter.textContent = String(index + 1).padStart(2, "0");
+  }
+  function syncExperienceWithViewport() {
+    if (experienceSteps.length === 0) return;
+    var viewportAnchor = window.innerHeight * 0.46;
+    var closestIndex = experienceSteps.reduce((bestIndex, step, index) => {
+      var rect = step.getBoundingClientRect();
+      var distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
+      var bestRect = experienceSteps[bestIndex].getBoundingClientRect();
+      var bestDistance = Math.abs(bestRect.top + bestRect.height / 2 - viewportAnchor);
+      return distance < bestDistance ? index : bestIndex;
+    }, 0);
+    setExperience(closestIndex);
+  }
+  if ("IntersectionObserver" in window) {
+    experienceObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) syncExperienceWithViewport();
+      },
+      { threshold: [0, 0.2, 0.4], rootMargin: "-20% 0px -20% 0px" },
+    );
+    experienceSteps.forEach((step) => {
+      experienceObserver.observe(step);
+    });
+    syncExperienceAccessibility();
+    mobileExperienceMedia.addEventListener("change", syncExperienceAccessibility);
+    window.requestAnimationFrame(syncExperienceWithViewport);
+  }
 
   var faqItems = Array.from(document.querySelectorAll(".faq-item"));
   var faqTransitionId = 0;
