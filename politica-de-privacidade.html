@@ -67,8 +67,8 @@
 
         <section aria-labelledby="privacy-data">
           <h2 id="privacy-data">Quais dados do Google são acessados</h2>
-          <p>A integração acessa a conta do Perfil da Empresa no Google administrada pelo Recanto Florença somente para localizar o estabelecimento correto e consultar suas avaliações.</p>
-          <p>O arquivo público exibido no site pode conter, para no máximo cinco avaliações recentes:</p>
+          <p>A integração consulta somente os dados públicos do Recanto Florença pela Places API (New), usando o identificador público do local no Google Maps.</p>
+          <p>O arquivo público exibido no site pode conter, para no máximo cinco avaliações relevantes selecionadas pelo Google:</p>
           <ul>
             <li>nome público e foto pública do autor, quando fornecidos pelo Google;</li>
             <li>nota em estrelas, comentário público e data da avaliação;</li>
@@ -87,8 +87,8 @@
 
         <section aria-labelledby="privacy-storage">
           <h2 id="privacy-storage">Armazenamento e segurança</h2>
-          <p>O identificador do cliente OAuth, a chave secreta e o token de atualização ficam protegidos como segredos do GitHub Actions. Eles não são incluídos no código-fonte nem enviados ao navegador.</p>
-          <p>Durante cada atualização, o token de acesso existe apenas temporariamente na memória do processo. Em seguida, as cinco avaliações selecionadas e os dados agregados são gravados em um arquivo estático público. Esse arquivo é substituído a cada atualização e deixa de ser exibido automaticamente se estiver ausente, inválido ou vencido.</p>
+          <p>A chave restrita da Places API (New) fica protegida como segredo do GitHub Actions. Ela não é incluída no código-fonte, no arquivo público de avaliações nem enviada ao navegador.</p>
+          <p>Durante cada atualização, a chave existe apenas no ambiente protegido do processo. Em seguida, as cinco avaliações selecionadas e os dados agregados são gravados em um arquivo estático público. Esse arquivo é substituído a cada atualização e deixa de ser exibido automaticamente se estiver ausente, inválido ou vencido.</p>
         </section>
 
         <section aria-labelledby="privacy-sharing">
