@@ -61,10 +61,10 @@ function normalizeBusinessProfileReview(review) {
     rating: GOOGLE_STAR_RATINGS[review?.starRating] || Number(review?.starRating) || 1,
     text: String(review?.comment || "").trim(),
     relativePublishTimeDescription: formatRelativeDate(review?.updateTime || review?.createTime),
-    googleMapsUri: "",
+    googleMapsUri: review?.googleMapsUri || "",
     author: {
       displayName: reviewer.displayName || "Usuário do Google",
-      uri: "",
+      uri: reviewer.profileUri || "",
       photoUri: reviewer.profilePhotoUrl || "",
     },
   };
