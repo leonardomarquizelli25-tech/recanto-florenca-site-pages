@@ -16,11 +16,19 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
   window.addEventListener("scroll", updateHeader, { passive: true });
 
   var floatingWhatsapp = document.querySelector(".floating-whatsapp");
-  var gallerySection = document.querySelector("#galeria");
-  if (floatingWhatsapp && gallerySection && "IntersectionObserver" in window) {
-    const galleryVisibilityObserver = new IntersectionObserver(
+  var whatsappSuppressionTargets = [
+    document.querySelector("#galeria"),
+    document.querySelector(".footer"),
+  ].filter(Boolean);
+  if (floatingWhatsapp && whatsappSuppressionTargets.length > 0 && "IntersectionObserver" in window) {
+    const visibleSuppressionTargets = new Set();
+    const whatsappVisibilityObserver = new IntersectionObserver(
       (entries) => {
-        var shouldSuppress = entries.some((entry) => entry.isIntersecting);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visibleSuppressionTargets.add(entry.target);
+          else visibleSuppressionTargets.delete(entry.target);
+        });
+        var shouldSuppress = visibleSuppressionTargets.size > 0;
         floatingWhatsapp.classList.toggle("is-suppressed", shouldSuppress);
         if (shouldSuppress) {
           floatingWhatsapp.setAttribute("aria-hidden", "true");
@@ -32,7 +40,9 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
       },
       { threshold: 0.01 },
     );
-    galleryVisibilityObserver.observe(gallerySection);
+    whatsappSuppressionTargets.forEach((target) => {
+      whatsappVisibilityObserver.observe(target);
+    });
   }
 
   var menuToggle = document.querySelector(".menu-toggle");
