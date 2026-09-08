@@ -291,8 +291,13 @@ h2 {
 .button--large svg:first-child {
   width: 22px;
   height: 22px;
-  fill: none;
-  stroke: currentColor;
+}
+
+.button svg.whatsapp-mark,
+.floating-whatsapp svg.whatsapp-mark {
+  display: block;
+  fill: currentColor;
+  stroke: none;
 }
 
 .text-link {
@@ -2338,8 +2343,15 @@ a.review-card__author:hover strong {
   font-style: italic;
 }
 
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .footer__social {
   display: grid;
+  flex: 0 0 48px;
   width: 48px;
   height: 48px;
   place-items: center;
@@ -2353,6 +2365,8 @@ a.review-card__author:hover strong {
 
 .footer__social svg {
   width: 20px;
+  height: 20px;
+  display: block;
   fill: none;
   stroke: var(--gold);
   stroke-width: 1.5;
@@ -2361,6 +2375,11 @@ a.review-card__author:hover strong {
 .footer__social .icon-fill {
   fill: var(--gold);
   stroke: none;
+}
+
+.footer__social--facebook svg {
+  width: 19px;
+  height: 19px;
 }
 
 .footer__links {
@@ -2615,11 +2634,11 @@ a.review-card__author:hover strong {
   bottom: max(18px, env(safe-area-inset-bottom));
   z-index: 900;
   display: flex;
-  min-height: 54px;
+  min-height: 58px;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  gap: 12px;
+  padding: 0 22px;
+  border: 1px solid rgba(200, 169, 110, 0.42);
   border-radius: 999px;
   background: var(--forest);
   box-shadow: 0 14px 40px rgba(16, 41, 31, 0.28);
@@ -2643,12 +2662,10 @@ a.review-card__author:hover strong {
 }
 
 .floating-whatsapp svg {
-  width: 22px;
-  fill: none;
-  stroke: var(--gold);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.4;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  color: var(--gold);
 }
 
 /* Motion polish preview — emil-design-eng */
@@ -3483,9 +3500,16 @@ a.review-card__author:hover strong {
   }
 
   .floating-whatsapp {
-    width: 54px;
+    width: 60px;
+    min-height: 60px;
     padding: 0;
     justify-content: center;
+  }
+
+  .floating-whatsapp svg {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
   }
 
   .floating-whatsapp span {
