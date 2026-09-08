@@ -296,8 +296,12 @@ h2 {
 .button svg.whatsapp-mark,
 .floating-whatsapp svg.whatsapp-mark {
   display: block;
-  fill: currentColor;
-  stroke: none;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
 .text-link {
