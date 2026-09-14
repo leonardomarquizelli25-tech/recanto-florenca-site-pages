@@ -289,7 +289,8 @@ h2 {
 
 .location-map__footer {
   border-top: 1px solid var(--editorial-line);
-  background: var(--cream-pale);
+  background: var(--forest);
+  color: var(--white);
 }
 
 /* Avaliações: depoimentos tipográficos, sem o padrão de três cards brancos. */
@@ -432,6 +433,18 @@ h2 {
   .events__heading {
     position: static;
     margin-bottom: 52px;
+  }
+
+  .reviews__heading {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .reviews__attribution {
+    width: fit-content;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+    padding-left: 10px;
   }
 }
 
