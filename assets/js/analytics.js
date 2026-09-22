@@ -6,29 +6,52 @@
   window.gtag =
     window.gtag ||
     function () {
+      // biome-ignore lint/complexity/noArguments: o carregador oficial do GA reproduz a fila com o objeto Arguments.
       window.dataLayer.push(arguments);
     };
 
   window.gtag("js", new Date());
   window.gtag("config", ga4MeasurementId);
 
-  var ga4Script = document.createElement("script");
-  ga4Script.async = true;
-  ga4Script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga4MeasurementId)}`;
-  document.head.appendChild(ga4Script);
-
   window.clarity =
     window.clarity ||
     function () {
       window.clarity.q = window.clarity.q || [];
+      // biome-ignore lint/complexity/noArguments: o Clarity espera reproduzir exatamente os argumentos enfileirados.
       window.clarity.q.push(arguments);
     };
 
-  var clarityScript = document.createElement("script");
-  clarityScript.async = true;
-  clarityScript.src = `https://www.clarity.ms/tag/${clarityProjectId}`;
-  var firstScript = document.getElementsByTagName("script")[0];
-  firstScript.parentNode.insertBefore(clarityScript, firstScript);
+  var analyticsScheduled = false;
+  function loadThirdPartyAnalytics() {
+    if (analyticsScheduled) return;
+    analyticsScheduled = true;
+
+    var ga4Script = document.createElement("script");
+    ga4Script.async = true;
+    ga4Script.fetchPriority = "low";
+    ga4Script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga4MeasurementId)}`;
+    document.head.appendChild(ga4Script);
+
+    var clarityScript = document.createElement("script");
+    clarityScript.async = true;
+    clarityScript.fetchPriority = "low";
+    clarityScript.src = `https://www.clarity.ms/tag/${clarityProjectId}`;
+    document.head.appendChild(clarityScript);
+  }
+
+  function scheduleThirdPartyAnalytics() {
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(loadThirdPartyAnalytics, { timeout: 1500 });
+    } else {
+      window.setTimeout(loadThirdPartyAnalytics, 350);
+    }
+  }
+
+  if (document.readyState === "complete") {
+    scheduleThirdPartyAnalytics();
+  } else {
+    window.addEventListener("load", scheduleThirdPartyAnalytics, { once: true });
+  }
 
   function getActionLabel(element) {
     return (element.getAttribute("aria-label") || element.textContent || "")

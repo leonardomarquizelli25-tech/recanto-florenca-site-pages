@@ -5,19 +5,29 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     "Olá! Vim pelo site do Recanto Florença e gostaria de consultar uma data. Meu evento será no dia [DATA], para aproximadamente [NÚMERO] pessoas. O tipo de evento será [TIPO DE EVENTO].";
   var whatsappUrl = `https://wa.me/5514998134747?text=${encodeURIComponent(whatsappMessage)}`;
   document.querySelectorAll("[data-whatsapp]").forEach((link) => {
-    link.href = whatsappUrl;
+    const eventContext = link.getAttribute("data-whatsapp-context");
+    if (eventContext) {
+      const contextualMessage = `Olá! Vim pelo site do Recanto Florença e gostaria de consultar uma data para ${eventContext}. A data será [DATA], para aproximadamente [NÚMERO] pessoas.`;
+      link.href = `https://wa.me/5514998134747?text=${encodeURIComponent(contextualMessage)}`;
+    } else {
+      link.href = whatsappUrl;
+    }
   });
 
   var header = document.querySelector(".site-header");
   function updateHeader() {
+    if (!header) return;
     header.classList.toggle("site-header--scrolled", window.scrollY > 36);
   }
-  updateHeader();
-  window.addEventListener("scroll", updateHeader, { passive: true });
+  if (header) {
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+  }
 
   var floatingWhatsapp = document.querySelector(".floating-whatsapp");
   var whatsappSuppressionTargets = [
     document.querySelector("#galeria"),
+    document.querySelector("#eventos"),
     document.querySelector(".footer"),
   ].filter(Boolean);
   if (floatingWhatsapp && whatsappSuppressionTargets.length > 0 && "IntersectionObserver" in window) {
@@ -48,6 +58,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
   var menuToggle = document.querySelector(".menu-toggle");
   var mobileMenu = document.querySelector(".mobile-menu");
   function setMenu(open) {
+    if (!menuToggle || !mobileMenu) return;
     menuToggle.classList.toggle("is-open", open);
     mobileMenu.classList.toggle("is-open", open);
     menuToggle.setAttribute("aria-expanded", String(open));
@@ -55,14 +66,16 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     mobileMenu.setAttribute("aria-hidden", String(!open));
     document.body.classList.toggle("menu-open", open);
   }
-  menuToggle.addEventListener("click", () => {
-    setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
-  });
-  mobileMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      setMenu(false);
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      setMenu(menuToggle.getAttribute("aria-expanded") !== "true");
     });
-  });
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        setMenu(false);
+      });
+    });
+  }
 
   var reducedMotion = prefersReducedMotion();
   var revealElements = document.querySelectorAll(".reveal[data-motion='reveal']");
@@ -196,7 +209,9 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     );
   });
 
-  var faqItems = Array.from(document.querySelectorAll(".faq-item"));
+  var faqItems = Array.from(document.querySelectorAll(".faq-item")).filter(
+    (item) => item.querySelector("button") && item.querySelector(".faq-item__answer"),
+  );
   var faqTransitionId = 0;
 
   function captureFaqPositions() {
@@ -212,9 +227,12 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     faqItems.forEach((item) => {
       var delta = previousPositions.get(item) - item.getBoundingClientRect().top;
       if (Math.abs(delta) < 1) return;
-      item.getAnimations().forEach((animation) => {
-        if (animation.id === "faq-layout") animation.cancel();
-      });
+      if (typeof item.getAnimations === "function") {
+        item.getAnimations().forEach((animation) => {
+          if (animation.id === "faq-layout") animation.cancel();
+        });
+      }
+      if (typeof item.animate !== "function") return;
       var animation = item.animate(
         [{ transform: `translateY(${delta}px)` }, { transform: "translateY(0)" }],
         { duration: 180, easing: "cubic-bezier(0.23, 1, 0.32, 1)" },
@@ -347,17 +365,31 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     },
   ];
   var lightbox = document.querySelector(".lightbox");
-  var lightboxImage = lightbox.querySelector("figure img");
-  var lightboxCategory = lightbox.querySelector("figcaption span");
-  var lightboxCaption = lightbox.querySelector("figcaption strong");
-  var lightboxCounter = lightbox.querySelector("figcaption small");
-  var lightboxClose = lightbox.querySelector(".lightbox__close");
+  var lightboxImage = lightbox ? lightbox.querySelector("figure img") : null;
+  var lightboxCategory = lightbox ? lightbox.querySelector("figcaption span") : null;
+  var lightboxCaption = lightbox ? lightbox.querySelector("figcaption strong") : null;
+  var lightboxCounter = lightbox ? lightbox.querySelector("figcaption small") : null;
+  var lightboxClose = lightbox ? lightbox.querySelector(".lightbox__close") : null;
+  var lightboxPrevious = lightbox ? lightbox.querySelector(".lightbox__nav--prev") : null;
+  var lightboxNext = lightbox ? lightbox.querySelector(".lightbox__nav--next") : null;
+  var lightboxReady = Boolean(
+    lightbox &&
+      lightboxImage &&
+      lightboxCategory &&
+      lightboxCaption &&
+      lightboxCounter &&
+      lightboxClose &&
+      lightboxPrevious &&
+      lightboxNext,
+  );
   var selectedIndex = 0;
   var lastFocusedElement = null;
   var lightboxTransitionId = 0;
 
   function renderLightbox() {
+    if (!lightboxReady) return;
     var item = gallery[selectedIndex];
+    if (!item) return;
     var widths = item.widths || [768, 1200, 1600];
     var largestWidth = widths[widths.length - 1];
     lightboxImage.src = `assets/images/recanto/${item.id}-${largestWidth}.webp`;
@@ -372,6 +404,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     lightbox.setAttribute("aria-label", `Galeria de fotos, imagem ${selectedIndex + 1} de ${gallery.length}`);
   }
   function openLightbox(index, trigger) {
+    if (!lightboxReady || !Number.isInteger(index) || !gallery[index]) return;
     lightboxTransitionId += 1;
     selectedIndex = index;
     lastFocusedElement = trigger;
@@ -384,6 +417,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     });
   }
   async function closeLightbox() {
+    if (!lightboxReady) return;
     if (lightbox.hidden || !lightbox.classList.contains("is-visible")) return;
     var transitionId = ++lightboxTransitionId;
     lightbox.classList.remove("is-visible");
@@ -394,6 +428,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     if (lastFocusedElement) lastFocusedElement.focus();
   }
   function moveLightbox(direction) {
+    if (!lightboxReady || gallery.length === 0) return;
     selectedIndex = wrapIndex(selectedIndex + direction, gallery.length);
     renderLightbox();
   }
@@ -403,23 +438,25 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
       openLightbox(Number(button.getAttribute("data-gallery-index")), button);
     });
   });
-  lightboxClose.addEventListener("click", closeLightbox);
-  lightbox.querySelector(".lightbox__nav--prev").addEventListener("click", () => {
-    moveLightbox(-1);
-  });
-  lightbox.querySelector(".lightbox__nav--next").addEventListener("click", () => {
-    moveLightbox(1);
-  });
-  lightbox.addEventListener("mousedown", (event) => {
-    if (event.target === lightbox) closeLightbox();
-  });
+  if (lightboxReady) {
+    lightboxClose.addEventListener("click", closeLightbox);
+    lightboxPrevious.addEventListener("click", () => {
+      moveLightbox(-1);
+    });
+    lightboxNext.addEventListener("click", () => {
+      moveLightbox(1);
+    });
+    lightbox.addEventListener("mousedown", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+  }
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      if (!lightbox.hidden) closeLightbox();
+      if (lightboxReady && !lightbox.hidden) closeLightbox();
       else setMenu(false);
     }
-    if (!lightbox.hidden && event.key === "ArrowRight") moveLightbox(1);
-    if (!lightbox.hidden && event.key === "ArrowLeft") moveLightbox(-1);
+    if (lightboxReady && !lightbox.hidden && event.key === "ArrowRight") moveLightbox(1);
+    if (lightboxReady && !lightbox.hidden && event.key === "ArrowLeft") moveLightbox(-1);
   });
 })();

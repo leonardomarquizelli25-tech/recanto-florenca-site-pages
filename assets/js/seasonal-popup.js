@@ -7,18 +7,23 @@
   var scrollKeys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " ", "Escape"];
   var active = false;
 
+  var reducedMotion =
+    typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var flakes = "❄❅❆";
-  for (let index = 0; index < 28; index += 1) {
-    const flake = document.createElement("span");
-    flake.className = "rf-flake";
-    flake.setAttribute("aria-hidden", "true");
-    flake.textContent = flakes[Math.floor(Math.random() * flakes.length)];
-    flake.style.left = `${Math.random() * 100}%`;
-    flake.style.fontSize = `${10 + Math.random() * 16}px`;
-    flake.style.animationDuration = `${6 + Math.random() * 8}s`;
-    flake.style.animationDelay = `${Math.random() * 8}s`;
-    flake.style.opacity = 0.3 + Math.random() * 0.6;
-    overlay.appendChild(flake);
+  var flakeCount = window.innerWidth <= 720 ? 14 : 22;
+  if (!reducedMotion) {
+    for (let index = 0; index < flakeCount; index += 1) {
+      const flake = document.createElement("span");
+      flake.className = "rf-flake";
+      flake.setAttribute("aria-hidden", "true");
+      flake.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+      flake.style.left = `${Math.random() * 100}%`;
+      flake.style.fontSize = `${10 + Math.random() * 16}px`;
+      flake.style.animationDuration = `${6 + Math.random() * 8}s`;
+      flake.style.animationDelay = `${Math.random() * 8}s`;
+      flake.style.opacity = 0.3 + Math.random() * 0.6;
+      overlay.appendChild(flake);
+    }
   }
 
   function isPopupControl(target) {
@@ -67,8 +72,8 @@
     unbindDismissEvents();
   }
 
-  closeButton.addEventListener("click", closeOverlay);
-  actionButton.addEventListener("click", closeOverlay);
+  if (closeButton) closeButton.addEventListener("click", closeOverlay);
+  if (actionButton) actionButton.addEventListener("click", closeOverlay);
 
   function scheduleShow() {
     window.setTimeout(showOverlay, 300);

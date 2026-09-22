@@ -204,12 +204,12 @@
       </a>
     </section>
 
-    <section class="trust-strip" aria-label="Principais números do espaço">
+    <section class="trust-strip" aria-label="Principais números e atalhos do espaço">
       <div class="trust-strip__inner">
-        <div class="reveal trust-item"><strong>80</strong><span>pessoas</span></div>
-        <div class="reveal trust-item" style="--reveal-delay:70ms"><strong>01</strong><span>piscina</span></div>
-        <div class="reveal trust-item" style="--reveal-delay:140ms"><strong>01</strong><span>salão</span></div>
-        <div class="reveal trust-item" style="--reveal-delay:210ms"><strong>04</strong><span>banheiros</span></div>
+        <a class="reveal trust-item" href="#ambiente-salao" aria-label="Ver o salão para até 80 pessoas"><strong>80</strong><span>pessoas</span></a>
+        <a class="reveal trust-item" href="#ambiente-piscina" aria-label="Ver a piscina e a área de lazer" style="--reveal-delay:70ms"><strong>01</strong><span>piscina</span></a>
+        <a class="reveal trust-item" href="#ambiente-salao" aria-label="Ver o salão do Recanto" style="--reveal-delay:140ms"><strong>01</strong><span>salão</span></a>
+        <a class="reveal trust-item" href="#ambiente-apoio" aria-label="Ver os banheiros e ambientes de apoio" style="--reveal-delay:210ms"><strong>04</strong><span>banheiros</span></a>
         <div class="reveal trust-strip__message" style="--reveal-delay:300ms">
           <p>Um espaço completo para viver dias que permanecem na memória.</p>
         </div>
@@ -257,10 +257,11 @@
           <p>Conheça cada ambiente e veja o que está incluído na locação.</p>
         </div>
         <div class="experience__steps">
-            <article class="reveal experience-step" data-motion="reveal" data-experience-step="0">
-              <div class="experience-step__media">
+            <article class="reveal experience-step" id="ambiente-salao" data-motion="reveal" data-experience-step="0">
+              <button class="experience-step__media" type="button" data-gallery-index="2" aria-label="Ampliar foto do salão e área de convivência">
                 <img src="assets/images/recanto/salao-amplo-02-768.webp" srcset="assets/images/recanto/salao-amplo-02-480.webp 480w, assets/images/recanto/salao-amplo-02-768.webp 768w, assets/images/recanto/salao-amplo-02-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 52vw" width="6048" height="8064" alt="Área interna ampla do Recanto Florença" style="object-position:50% 54%" loading="lazy" decoding="async">
-              </div>
+                <span class="experience-step__zoom" aria-hidden="true">Ver foto <svg viewBox="0 0 24 24"><path d="m15 15 5 5m-2-11a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-4v8M5 9h8"></path></svg></span>
+              </button>
               <div class="experience-step__content">
               <span class="experience-step__number">01</span>
               <p>Salão e convivência</p>
@@ -272,10 +273,11 @@
               </ul>
               </div>
             </article>
-            <article class="reveal experience-step" data-motion="reveal" data-experience-step="1">
-              <div class="experience-step__media">
+            <article class="reveal experience-step" id="ambiente-cozinha" data-motion="reveal" data-experience-step="1">
+              <button class="experience-step__media" type="button" data-gallery-index="3" aria-label="Ampliar foto da cozinha e área de preparo">
                 <img src="assets/images/recanto/balcao-area-preparo-768.webp" srcset="assets/images/recanto/balcao-area-preparo-480.webp 480w, assets/images/recanto/balcao-area-preparo-768.webp 768w, assets/images/recanto/balcao-area-preparo-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 52vw" width="6048" height="8064" alt="Balcão, churrasqueira e área de preparo" style="object-position:50% 51%" loading="lazy" decoding="async">
-              </div>
+                <span class="experience-step__zoom" aria-hidden="true">Ver foto <svg viewBox="0 0 24 24"><path d="m15 15 5 5m-2-11a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-4v8M5 9h8"></path></svg></span>
+              </button>
               <div class="experience-step__content">
               <span class="experience-step__number">02</span>
               <p>Cozinha e apoio</p>
@@ -287,10 +289,11 @@
               </ul>
               </div>
             </article>
-            <article class="reveal experience-step" data-motion="reveal" data-experience-step="2">
-              <div class="experience-step__media">
+            <article class="reveal experience-step" id="ambiente-piscina" data-motion="reveal" data-experience-step="2">
+              <button class="experience-step__media" type="button" data-gallery-index="7" aria-label="Ampliar foto da piscina e do deck">
                 <img src="assets/images/recanto/piscina-deck-768.webp" srcset="assets/images/recanto/piscina-deck-480.webp 480w, assets/images/recanto/piscina-deck-768.webp 768w, assets/images/recanto/piscina-deck-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 52vw" width="6048" height="8064" alt="Piscina e deck do Recanto Florença" style="object-position:50% 57%" loading="lazy" decoding="async">
-              </div>
+                <span class="experience-step__zoom" aria-hidden="true">Ver foto <svg viewBox="0 0 24 24"><path d="m15 15 5 5m-2-11a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-4v8M5 9h8"></path></svg></span>
+              </button>
               <div class="experience-step__content">
               <span class="experience-step__number">03</span>
               <p>Piscina e lazer</p>
@@ -302,10 +305,11 @@
               </ul>
               </div>
             </article>
-            <article class="reveal experience-step" data-motion="reveal" data-experience-step="3">
-              <div class="experience-step__media">
+            <article class="reveal experience-step" id="ambiente-apoio" data-motion="reveal" data-experience-step="3">
+              <button class="experience-step__media" type="button" data-gallery-index="4" aria-label="Ampliar foto dos ambientes de apoio">
                 <img src="assets/images/recanto/salao-blindex-circulacao-768.webp" srcset="assets/images/recanto/salao-blindex-circulacao-480.webp 480w, assets/images/recanto/salao-blindex-circulacao-768.webp 768w, assets/images/recanto/salao-blindex-circulacao-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 52vw" width="6048" height="8064" alt="Ambientes conectados por fechamento em vidro" style="object-position:50% 50%" loading="lazy" decoding="async">
-              </div>
+                <span class="experience-step__zoom" aria-hidden="true">Ver foto <svg viewBox="0 0 24 24"><path d="m15 15 5 5m-2-11a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-4v8M5 9h8"></path></svg></span>
+              </button>
               <div class="experience-step__content">
               <span class="experience-step__number">04</span>
               <p>Apoio e conforto</p>
@@ -317,10 +321,11 @@
               </ul>
               </div>
             </article>
-            <article class="reveal experience-step" data-motion="reveal" data-experience-step="4">
-              <div class="experience-step__media">
+            <article class="reveal experience-step" id="ambiente-acomodacoes" data-motion="reveal" data-experience-step="4">
+              <button class="experience-step__media" type="button" data-gallery-index="6" aria-label="Ampliar foto do dormitório climatizado">
                 <img src="assets/images/recanto/quarto-beliches-02-768.webp" srcset="assets/images/recanto/quarto-beliches-02-480.webp 480w, assets/images/recanto/quarto-beliches-02-768.webp 768w, assets/images/recanto/quarto-beliches-02-960.webp 960w" sizes="(max-width: 720px) 92vw, 52vw" width="960" height="1280" alt="Dormitório climatizado do Recanto Florença com beliches de madeira" style="object-position:50% 52%" loading="lazy" decoding="async">
-              </div>
+                <span class="experience-step__zoom" aria-hidden="true">Ver foto <svg viewBox="0 0 24 24"><path d="m15 15 5 5m-2-11a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-4v8M5 9h8"></path></svg></span>
+              </button>
               <div class="experience-step__content">
               <span class="experience-step__number">05</span>
               <p>Acomodações</p>
@@ -337,6 +342,11 @@
               </div>
             </article>
           </div>
+          <a class="reveal experience__next" data-motion="reveal" href="#galeria">
+            <span><small>Continue o passeio</small><strong>Veja os ambientes na galeria completa</strong></span>
+            <span class="experience__next-count">13 fotos</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg>
+          </a>
       </div>
     </section>
 
@@ -452,12 +462,12 @@
           <h2 id="events-title">Casamentos, aniversários e confraternizações.</h2>
         </div>
         <div class="event-list">
-          <div class="reveal event-list__item"><span>01</span><h3>Aniversários</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
-          <div class="reveal event-list__item" style="--reveal-delay:45ms"><span>02</span><h3>Celebrações intimistas</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
-          <div class="reveal event-list__item" style="--reveal-delay:90ms"><span>03</span><h3>Confraternizações</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
-          <div class="reveal event-list__item" style="--reveal-delay:135ms"><span>04</span><h3>Encontros de amigos</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
-          <div class="reveal event-list__item" style="--reveal-delay:180ms"><span>05</span><h3>Chás e recepções</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
-          <div class="reveal event-list__item" style="--reveal-delay:225ms"><span>06</span><h3>Eventos corporativos</h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></div>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="aniversário" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para aniversário pelo WhatsApp"><span class="event-list__number">01</span><h3>Aniversários</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="celebração intimista" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para celebração intimista pelo WhatsApp" style="--reveal-delay:45ms"><span class="event-list__number">02</span><h3>Celebrações intimistas</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="confraternização" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para confraternização pelo WhatsApp" style="--reveal-delay:90ms"><span class="event-list__number">03</span><h3>Confraternizações</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="encontro de amigos" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para encontro de amigos pelo WhatsApp" style="--reveal-delay:135ms"><span class="event-list__number">04</span><h3>Encontros de amigos</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="chá ou recepção" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para chá ou recepção pelo WhatsApp" style="--reveal-delay:180ms"><span class="event-list__number">05</span><h3>Chás e recepções</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
+          <a class="reveal event-list__item" data-whatsapp data-whatsapp-context="evento corporativo" href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer" aria-label="Consultar data para evento corporativo pelo WhatsApp" style="--reveal-delay:225ms"><span class="event-list__number">06</span><h3>Eventos corporativos</h3><span class="event-list__action">Consultar data</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></a>
         </div>
       </div>
     </section>
