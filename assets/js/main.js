@@ -1,4 +1,7 @@
 import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-utils.js";
+import { initializeQuoteDialog } from "./quote-dialog.js";
+
+initializeQuoteDialog();
 
 (() => {
   var whatsappMessage =
@@ -15,9 +18,13 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
   });
 
   var header = document.querySelector(".site-header");
+  var headerScrolled;
   function updateHeader() {
     if (!header) return;
-    header.classList.toggle("site-header--scrolled", window.scrollY > 36);
+    const nextScrolled = window.scrollY > 36;
+    if (nextScrolled === headerScrolled) return;
+    headerScrolled = nextScrolled;
+    header.classList.toggle("site-header--scrolled", nextScrolled);
   }
   if (header) {
     updateHeader();
@@ -125,8 +132,9 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
   function updateGalleryControls(index = getClosestGalleryIndex()) {
     galleryIndex = Math.min(Math.max(index, 0), galleryCards.length - 1);
     if (galleryCurrent) galleryCurrent.textContent = String(galleryIndex + 1).padStart(2, "0");
-    if (galleryPrevious) galleryPrevious.disabled = galleryIndex === 0;
-    if (galleryNext) galleryNext.disabled = galleryIndex === galleryCards.length - 1;
+    const maxScroll = Math.max(0, galleryTrack.scrollWidth - galleryTrack.clientWidth);
+    if (galleryPrevious) galleryPrevious.disabled = galleryTrack.scrollLeft <= 1;
+    if (galleryNext) galleryNext.disabled = galleryTrack.scrollLeft >= maxScroll - 1;
   }
 
   function scrollGalleryTo(index) {
@@ -135,7 +143,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
       left: galleryCards[index].offsetLeft,
       behavior: reducedMotion ? "auto" : "smooth",
     });
-    updateGalleryControls(index);
+    updateGalleryControls();
   }
 
   function cancelGalleryHint() {
@@ -172,6 +180,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
       scrollGalleryTo(galleryIndex + 1);
     });
     updateGalleryControls(0);
+    window.addEventListener("resize", () => updateGalleryControls(), { passive: true });
 
     if (!reducedMotion && "IntersectionObserver" in window && galleryCarousel) {
       galleryHintObserver = new IntersectionObserver(
@@ -196,6 +205,7 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
     if (image.matches("[data-experience-image], .events__background img, .final-cta__image img")) return;
     if (image.complete) return;
     image.classList.add("is-media-loading");
+    image.addEventListener("error", () => image.classList.remove("is-media-loading"), { once: true });
     image.addEventListener(
       "load",
       () => {
@@ -224,8 +234,12 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
 
   function animateFaqLayout(previousPositions) {
     if (reducedMotion) return;
-    faqItems.forEach((item) => {
-      var delta = previousPositions.get(item) - item.getBoundingClientRect().top;
+    // Batch layout reads before starting animations; avoid repeated layout work per item.
+    const movements = faqItems.map((item) => ({
+      item,
+      delta: previousPositions.get(item) - item.getBoundingClientRect().top,
+    }));
+    movements.forEach(({ item, delta }) => {
       if (Math.abs(delta) < 1) return;
       if (typeof item.getAnimations === "function") {
         item.getAnimations().forEach((animation) => {
@@ -452,6 +466,12 @@ import { prefersReducedMotion, waitForTransition, wrapIndex } from "./motion-uti
   }
 
   document.addEventListener("keydown", (event) => {
+    if (lightboxReady && !lightbox.hidden && event.key === "Tab") {
+      const controls = [lightboxClose, lightboxPrevious, lightboxNext];
+      const index = controls.indexOf(document.activeElement);
+      event.preventDefault();
+      controls[wrapIndex(index + (event.shiftKey ? -1 : 1), controls.length)].focus();
+    }
     if (event.key === "Escape") {
       if (lightboxReady && !lightbox.hidden) closeLightbox();
       else setMenu(false);
