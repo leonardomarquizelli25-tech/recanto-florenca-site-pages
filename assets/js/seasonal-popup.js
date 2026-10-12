@@ -6,6 +6,7 @@
   var actionButton = overlay.querySelector(".rf-btn");
   var scrollKeys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " ", "Escape"];
   var active = false;
+  var waitingForConsent = false;
 
   var reducedMotion =
     typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -58,6 +59,11 @@
 
   function showOverlay() {
     if (active) return;
+    if (document.querySelector("[data-consent-banner]:not([hidden])")) {
+      waitingForConsent = true;
+      return;
+    }
+    waitingForConsent = false;
     active = true;
     overlay.classList.add("show");
     overlay.setAttribute("aria-hidden", "false");
@@ -78,6 +84,17 @@
   function scheduleShow() {
     window.setTimeout(showOverlay, 300);
   }
+
+  document.addEventListener("rf:consent-visibility", (event) => {
+    if (event.detail.visible) {
+      if (active) {
+        waitingForConsent = true;
+        closeOverlay();
+      }
+    } else if (waitingForConsent) {
+      scheduleShow();
+    }
+  });
 
   if (document.readyState === "complete") {
     scheduleShow();
