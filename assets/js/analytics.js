@@ -151,6 +151,7 @@
   function setBannerVisibility(visible) {
     var banner = createConsentBanner();
     banner.hidden = !visible;
+    document.dispatchEvent(new CustomEvent("rf:consent-visibility", { detail: { visible } }));
 
     if (visible) {
       banner.querySelector("[data-consent-choice]")?.focus({ preventScroll: true });
