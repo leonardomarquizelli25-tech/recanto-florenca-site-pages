@@ -121,6 +121,21 @@ body.quote-open { overflow: hidden; }
   background: var(--white); color: var(--forest-deep); font: inherit; font-size: 16px;
 }
 .quote-dialog input:disabled { background: var(--cream); }
+.quote-dialog input[type="date"] {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.quote-dialog input[type="date"]::-webkit-date-and-time-value {
+  min-height: 1.5em;
+  text-align: left;
+}
+.quote-dialog input[type="date"]::-webkit-datetime-edit {
+  min-width: 0;
+  padding: 0;
+}
 .quote-dialog :focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
 .quote-dialog small { font-weight: 400; color: var(--muted-strong); font-size: 13px; }
 .quote-dialog__wide { grid-column: 1 / -1; }
