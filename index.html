@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#1b3a2d">
-  <meta name="description" content="Recanto Florença: espaço para festas em Marília para até 80 pessoas, com piscina e dois quartos — 12 camas e 8 colchões avulsos para até 20 hóspedes.">
+  <meta name="description" content="Espaço para festas e área de lazer em Marília para até 80 pessoas. Piscina, cozinha e dois quartos: 12 camas e 8 colchões avulsos para até 20 hóspedes.">
   <meta name="robots" content="index, follow">
   <meta name="sentry-dsn" content="">
   <link rel="canonical" href="https://recantoflorenca.com.br/">
@@ -166,7 +166,7 @@
             <h1 id="hero-title">Espaço para festas e eventos <span>em Marília</span></h1>
           </div>
           <div class="reveal" data-motion="reveal" style="--reveal-delay:120ms">
-            <p class="hero__intro">Celebre seus melhores momentos em um espaço completo, acolhedor e cercado por uma atmosfera única, dentro de Marília.</p>
+            <p class="hero__intro">Seu evento em uma área de lazer em Marília, com piscina, salão e cozinha equipada. Um espaço acolhedor para reunir quem faz parte da sua história.</p>
           </div>
           <div class="reveal hero__actions" data-motion="reveal" style="--reveal-delay:170ms">
             <a class="button button--primary" data-whatsapp href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">
@@ -378,7 +378,7 @@
         </div>
         <div class="gallery-carousel" data-gallery-carousel role="region" aria-label="Fotos do Recanto Florença">
           <div class="gallery-carousel__toolbar">
-            <p><span aria-hidden="true">Arraste</span> Deslize para explorar</p>
+            <p><span aria-hidden="true">Explore</span> Use as setas ou deslize</p>
             <div class="gallery-carousel__controls">
               <span class="gallery-carousel__status" aria-live="polite" aria-atomic="true"><strong data-gallery-current>01</strong><i aria-hidden="true"></i><span>13</span></span>
               <button type="button" data-gallery-previous aria-label="Foto anterior" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"></path></svg></button>
@@ -639,7 +639,7 @@
       </div>
       <div class="footer__links">
         <div><span>Explore</span><a href="#recanto">O Recanto</a><a href="#estrutura">Estrutura</a><a href="#galeria">Galeria</a></div>
-        <div><span>Informações</span><a href="#eventos">Tipos de evento</a><a href="#localizacao">Localização</a><a href="#duvidas">Perguntas frequentes</a><a href="politica-de-privacidade.html">Política de privacidade</a></div>
+        <div><span>Informações</span><a href="#eventos">Tipos de evento</a><a href="#localizacao">Localização</a><a href="#duvidas">Perguntas frequentes</a><a href="politica-de-privacidade.html">Política de privacidade</a><button class="footer__link-button" type="button" data-consent-settings>Preferências de privacidade</button></div>
         <div class="footer__contact"><span>Contato</span><a data-whatsapp href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">WhatsApp</a><a href="https://instagram.com/recantoflorenca" target="_blank" rel="noopener noreferrer">@recantoflorenca</a><a href="https://www.facebook.com/recantoflorencamarilia/" target="_blank" rel="noopener noreferrer">Facebook</a><p>Marília · SP</p></div>
       </div>
       <div class="footer__bottom">
@@ -654,6 +654,41 @@
     <svg class="whatsapp-mark" viewBox="-1 -1 26 26" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.33 1.84.56 2.8.69A2 2 0 0 1 22 16.92Z"></path></svg>
     <span>Consultar data</span>
   </a>
+
+  <dialog id="quote-dialog" class="quote-dialog" aria-labelledby="quote-title" aria-describedby="quote-intro" data-clarity-mask="true">
+    <button class="quote-dialog__close" type="button" data-quote-close aria-label="Fechar consulta">×</button>
+    <p class="quote-dialog__eyebrow">Seu próximo encontro</p>
+    <h2 id="quote-title">Vamos planejar seu evento?</h2>
+    <p id="quote-intro">Conte o essencial. Sua mensagem já vai pronta para o WhatsApp.</p>
+    <form id="quote-form" name="consulta-evento">
+      <label class="quote-dialog__wide" for="quote-name">Seu nome
+        <input id="quote-name" name="guestName" autocomplete="given-name" maxlength="80" required placeholder="Como podemos chamar você?">
+      </label>
+      <label for="quote-guests">Convidados (estimativa)
+        <input id="quote-guests" name="guests" type="number" inputmode="numeric" min="1" max="80" step="1" required placeholder="Ex.: 40" aria-describedby="quote-capacity">
+        <small id="quote-capacity">O espaço recebe até 80 pessoas.</small>
+      </label>
+      <label for="quote-type"><span id="quote-type-label">Tipo de evento</span>
+        <select id="quote-type" name="eventType" aria-labelledby="quote-type-label" required>
+          <option value="">Selecione</option>
+          <option value="aniversário">Aniversário</option>
+          <option value="casamento">Casamento</option>
+          <option value="celebração intimista">Celebração intimista</option>
+          <option value="confraternização">Confraternização</option>
+          <option value="encontro de amigos">Encontro de amigos</option>
+          <option value="chá ou recepção">Chá ou recepção</option>
+          <option value="outro evento">Outro evento</option>
+        </select>
+      </label>
+      <label class="quote-dialog__wide" for="quote-date">Data desejada
+        <input id="quote-date" name="eventDate" type="date" required>
+      </label>
+      <label class="quote-dialog__check quote-dialog__wide"><input name="unknownDate" type="checkbox"> Ainda não defini a data</label>
+      <button class="button button--primary quote-dialog__wide" type="submit">Continuar no WhatsApp <span aria-hidden="true">↗</span></button>
+      <p class="quote-dialog__privacy quote-dialog__wide">Você revisa e envia a mensagem no WhatsApp. Não salvamos esses dados no site. <a href="politica-de-privacidade.html">Privacidade</a></p>
+    </form>
+    <a class="quote-dialog__direct" data-quote-direct href="https://wa.me/5514998134747" target="_blank" rel="noopener noreferrer">Prefiro falar diretamente com a equipe</a>
+  </dialog>
 
   <div class="lightbox" role="dialog" aria-modal="true" aria-label="Galeria de fotos" hidden>
     <button class="lightbox__close" type="button" aria-label="Fechar galeria"><span></span><span></span></button>
