@@ -1,104 +1,20 @@
+// Campaign controller kept at the existing URL to preserve the publishing contract.
 (() => {
-  var overlay = document.getElementById("rf-overlay");
-  if (!overlay) return;
+  const notice = document.querySelector("[data-holiday-note]");
+  if (!notice) return;
+  const expiresAt = Date.parse(notice.dataset.expiresAt);
+  let timer;
 
-  var closeButton = document.getElementById("rf-close");
-  var actionButton = overlay.querySelector(".rf-btn");
-  var scrollKeys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " ", "Escape"];
-  var active = false;
-  var waitingForConsent = false;
-
-  var reducedMotion =
-    typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var flakes = "❄❅❆";
-  var flakeCount = window.innerWidth <= 720 ? 14 : 22;
-  if (!reducedMotion) {
-    for (let index = 0; index < flakeCount; index += 1) {
-      const flake = document.createElement("span");
-      flake.className = "rf-flake";
-      flake.setAttribute("aria-hidden", "true");
-      flake.textContent = flakes[Math.floor(Math.random() * flakes.length)];
-      flake.style.left = `${Math.random() * 100}%`;
-      flake.style.fontSize = `${10 + Math.random() * 16}px`;
-      flake.style.animationDuration = `${6 + Math.random() * 8}s`;
-      flake.style.animationDelay = `${Math.random() * 8}s`;
-      flake.style.opacity = 0.3 + Math.random() * 0.6;
-      overlay.appendChild(flake);
-    }
+  function updateVisibility() {
+    window.clearTimeout(timer);
+    const remaining = expiresAt - Date.now();
+    const visible = Number.isFinite(remaining) && remaining > 0;
+    notice.hidden = !visible;
+    document.body.classList.toggle("holiday-note-visible", visible);
+    if (visible) timer = window.setTimeout(updateVisibility, Math.min(remaining, 2147483647));
   }
 
-  function isPopupControl(target) {
-    return target instanceof Element && Boolean(target.closest(".rf-content, #rf-close"));
-  }
-
-  function closeFromPointerOutside(event) {
-    if (!isPopupControl(event.target)) closeOverlay();
-  }
-
-  function closeFromKeyboard(event) {
-    if (scrollKeys.indexOf(event.key) !== -1) closeOverlay();
-  }
-
-  function bindDismissEvents() {
-    window.addEventListener("wheel", closeOverlay, { passive: true });
-    window.addEventListener("scroll", closeOverlay, { passive: true });
-    window.addEventListener("touchmove", closeOverlay, { passive: true });
-    window.addEventListener("touchstart", closeFromPointerOutside, { passive: true });
-    window.addEventListener("pointerdown", closeFromPointerOutside, { passive: true });
-    window.addEventListener("keydown", closeFromKeyboard);
-  }
-
-  function unbindDismissEvents() {
-    window.removeEventListener("wheel", closeOverlay);
-    window.removeEventListener("scroll", closeOverlay);
-    window.removeEventListener("touchmove", closeOverlay);
-    window.removeEventListener("touchstart", closeFromPointerOutside);
-    window.removeEventListener("pointerdown", closeFromPointerOutside);
-    window.removeEventListener("keydown", closeFromKeyboard);
-  }
-
-  function showOverlay() {
-    if (active) return;
-    if (document.querySelector("[data-consent-banner]:not([hidden])")) {
-      waitingForConsent = true;
-      return;
-    }
-    waitingForConsent = false;
-    active = true;
-    overlay.classList.add("show");
-    overlay.setAttribute("aria-hidden", "false");
-    bindDismissEvents();
-  }
-
-  function closeOverlay() {
-    if (!active) return;
-    active = false;
-    overlay.classList.remove("show");
-    overlay.setAttribute("aria-hidden", "true");
-    unbindDismissEvents();
-  }
-
-  if (closeButton) closeButton.addEventListener("click", closeOverlay);
-  if (actionButton) actionButton.addEventListener("click", closeOverlay);
-
-  function scheduleShow() {
-    window.setTimeout(showOverlay, 300);
-  }
-
-  document.addEventListener("rf:consent-visibility", (event) => {
-    if (event.detail.visible) {
-      if (active) {
-        waitingForConsent = true;
-        closeOverlay();
-      }
-    } else if (waitingForConsent) {
-      scheduleShow();
-    }
-  });
-
-  if (document.readyState === "complete") {
-    scheduleShow();
-  } else {
-    window.addEventListener("load", scheduleShow, { once: true });
-  }
+  updateVisibility();
+  window.addEventListener("pageshow", updateVisibility);
+  document.addEventListener("visibilitychange", updateVisibility);
 })();
