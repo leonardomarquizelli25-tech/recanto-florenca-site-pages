@@ -45,6 +45,9 @@ jobs:
           cp -R assets data _site/
           cp index.html politica-de-privacidade.html CNAME .nojekyll llms.txt robots.txt sitemap.xml _site/
 
+      - name: Guard published files
+        run: node scripts/check-published-files.mjs _site
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
